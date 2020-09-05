@@ -37,6 +37,8 @@ zinit light zdharma/fast-syntax-highlighting
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light b4b4r07/enhancd
+zinit light peterhurford/git-aliases.zsh
+zinit snippet OMZ::plugins/git/git.plugin.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
