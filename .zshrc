@@ -40,5 +40,8 @@ zinit light b4b4r07/enhancd
 zinit light peterhurford/git-aliases.zsh
 zinit snippet OMZ::plugins/git/git.plugin.zsh
 
+zinit light zdharma/zui
+zinit light zdharma/zplugin-crasis
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
