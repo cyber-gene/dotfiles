@@ -7,6 +7,7 @@ fi
 
 export GPG_TTY=$(tty)
 
+export EDITOR=vim
 eval "$(direnv hook zsh)"
 
 ### Added by Zinit's installer
