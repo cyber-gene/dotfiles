@@ -44,7 +44,8 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 export GPG_TTY=$(tty)
-eval $(gpg-agent --daemon)
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent
 
 ### zplug 
 source ~/.zplug/init.zsh
@@ -54,6 +55,7 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-history-substring-search"
+zplug "b4b4r07/enhancd"
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
