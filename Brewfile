@@ -51,8 +51,15 @@ cask "gitkraken"
 cask "visual-studio-code"
 cask "raycast"
 cask "warp"
+cask "dropbox"
+cask "protonvpn"
+cask "jetbrains-toolbox"
+cask "todoist"
+cask "discord"
+cask "typora"
 
 mas "NextDNS", id:1464122853
 mas "RunCat", id:1429033973
 mas "BetterSnapTool", id:417375580
 mas "Display Menu", id:549083868
+mas "The Unarchiver", id:425424353
