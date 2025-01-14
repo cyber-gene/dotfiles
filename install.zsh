@@ -30,4 +30,4 @@ source ~/.zshrc
 # Verify installations
 echo "Verifying installations..."
 command -v brew && echo "Homebrew installation verified."
-command -v zplug && echo "zplug installation verified."
+[[ -n "$(typeset -f zplug)" ]] && echo "zplug installation verified."
