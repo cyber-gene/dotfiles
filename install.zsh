@@ -37,7 +37,8 @@ else
 fi
 
 # Create symlinks
-./link.zsh -f
+LINK_SCRIPT="$CLONE_DIR/link.zsh"
+"$LINK_SCRIPT" -f
 
 source ~/.zshrc
 
