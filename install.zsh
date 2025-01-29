@@ -9,12 +9,6 @@ else
   echo "Homebrew is already installed."
 fi
 
-# Update and upgrade Homebrew
-brew update
-brew upgrade
-# Install Homebrew packages
-brew bundle --global
-
 # Install git
 if ! command -v git &>/dev/null; then
   echo "Installing git..."
@@ -51,3 +45,9 @@ source ~/.zshrc
 echo "Verifying installations..."
 command -v brew && echo "Homebrew installation verified."
 [[ -n "$(typeset -f zplug)" ]] && echo "zplug installation verified."
+
+# Update and upgrade Homebrew
+brew update
+brew upgrade
+# Install Homebrew packages
+brew bundle --global
