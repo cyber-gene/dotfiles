@@ -2,8 +2,7 @@
 
 ## Install
 
-1. Clone repository.
-1. Run ```install.zsh```
+1. Run ```zsh -c "$(curl -fsSL https://raw.githubusercontent.com/cyber-gene/dotfiles/main/install.zsh)"```
 
 ## Maintenance
 

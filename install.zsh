@@ -5,15 +5,34 @@ if ! command -v brew &>/dev/null; then
   echo "Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-  # Update and upgrade Homebrew
-  brew update
-  brew upgrade
-  # Install Homebrew packages
-  brew bundle --global
 else
   echo "Homebrew is already installed."
 fi
 
+# Update and upgrade Homebrew
+brew update
+brew upgrade
+# Install Homebrew packages
+brew bundle --global
+
+# Install git
+if ! command -v git &>/dev/null; then
+  echo "Installing git..."
+  brew install git
+else
+  echo "git is already installed."
+fi
+
+# Clone repository
+REPO_URL="https://github.com/cyber-gene/dotfiles.git"
+CLONE_DIR="$HOME/dotfiles"
+
+if [ ! -d "$CLONE_DIR" ]; then
+  echo "Cloning repository..."
+  git clone "$REPO_URL" "$CLONE_DIR"
+else
+  echo "Repository already exists at $CLONE_DIR."
+fi
 
 # Install zplug
 if [[ -z "$(typeset -f zplug)" && ! -d "$HOME/.zplug" ]]; then
