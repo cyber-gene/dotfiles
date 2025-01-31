@@ -36,3 +36,5 @@ if type brew &>/dev/null; then
   compinit
 fi
 
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
