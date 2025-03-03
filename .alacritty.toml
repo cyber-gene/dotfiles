@@ -1,3 +1,9 @@
+[window]
+padding = { x = 8, y = 4 }
+
 [font]
+bold = {family = "UDEV Gothic 35NFLG", style = "Bold"}
+italic = {family = "UDEV Gothic 35NFLG", style = "Italic"}
 normal = {family = "UDEV Gothic 35NFLG", style = "Regular"}
 size = 14
+offset = { y = 1 }
