@@ -28,7 +28,7 @@ for file in $script_dir/.*; do
         fi
 
         if [[ -e "$target" || -L "$target" ]]; then
-            echo "$target is exist. Skiped."
+            echo "$target already exists. Skipped."
         else
             ln -s "$file" "$target"
             echo "Create symlink: $target -> $file"
