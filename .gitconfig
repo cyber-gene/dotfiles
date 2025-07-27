@@ -1,0 +1,16 @@
+[init]
+	defaultBranch = main
+[user]
+	name = cybergene
+	email = cybergene@protonmail.com
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJF//Y+TOcMj2P0K4JnAcP96UGjEXgQd1Si2ReBlaTE4
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[commit]
+	gpgsign = true
+[tag]
+	forceSignAnnotated = true
+[alias]
+	cleanup-merged = !git branch --merged main | grep -v \"^\\\\*\" | grep -v \" main$\" | xargs -n 1 git branch -d
