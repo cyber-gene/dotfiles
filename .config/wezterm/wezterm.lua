@@ -13,7 +13,7 @@ config.harfbuzz_features = { 'liga=1' }
 config.color_scheme = 'Molokai (Gogh)'
 
 -- tab
-use_fancy_tab_bar = true
+config.use_fancy_tab_bar = false
 
 --
 config.initial_cols = 120
