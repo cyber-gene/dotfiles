@@ -15,7 +15,7 @@ config.color_scheme = 'Molokai (Gogh)'
 -- tab
 config.use_fancy_tab_bar = false
 
---
+-- window size
 config.initial_cols = 120
 config.initial_rows = 30
 
