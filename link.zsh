@@ -8,24 +8,28 @@ while getopts "f" OPT; do
     esac
 done
 
-# Function to create symlink safely
+# Function to create symlink safely with backup
 create_symlink() {
     local source="$1"
     local target="$2"
 
-    if $force; then
-        rm -rf "$target"
-        echo "Remove $target"
+    # Handle existing files/directories
+    if [[ -e "$target" || -L "$target" ]]; then
+        if $force; then
+            # Create backup with timestamp
+            backup_target="${target}.backup.$(date +%Y%m%d_%H%M%S)"
+            mv "$target" "$backup_target"
+            echo "Backed up $target to $backup_target"
+        else
+            echo "$target already exists. Skipped."
+            return
+        fi
     fi
 
-    if [[ -e "$target" || -L "$target" ]]; then
-        echo "$target already exists. Skipped."
-    else
-        # Create parent directory if it doesn't exist
-        mkdir -p "$(dirname "$target")"
-        ln -s "$source" "$target"
-        echo "Create symlink: $target -> $source"
-    fi
+    # Create parent directory if it doesn't exist
+    mkdir -p "$(dirname "$target")"
+    ln -s "$source" "$target"
+    echo "Create symlink: $target -> $source"
 }
 
 # Handle regular dotfiles
@@ -54,13 +58,6 @@ if [[ -d "$config_dir" ]]; then
         if [[ -f "$config_item" || -d "$config_item" ]]; then
             config_basename="$(basename "$config_item")"
             target="$HOME/.config/$config_basename"
-
-            # Check if target already exists and is not a symlink
-            if [[ -e "$target" && ! -L "$target" ]]; then
-                echo "Warning: $target exists and is not a symlink. Please handle manually."
-                echo "  To force replacement, use the -f option or manually remove $target"
-                continue
-            fi
 
             create_symlink "$config_item" "$target"
         fi
