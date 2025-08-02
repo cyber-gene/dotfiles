@@ -16,10 +16,16 @@ create_symlink() {
     # Handle existing files/directories
     if [[ -e "$target" || -L "$target" ]]; then
         if $force; then
-            # Create backup with timestamp
-            backup_target="${target}.backup.$(date +%Y%m%d_%H%M%S)"
-            mv "$target" "$backup_target"
-            echo "Backed up $target to $backup_target"
+            # Only backup if it's not a symlink (to avoid backing up link references)
+            if [[ ! -L "$target" ]]; then
+                backup_target="${target}.backup.$(date +%Y%m%d_%H%M%S)"
+                mv "$target" "$backup_target"
+                echo "Backed up $target to $backup_target"
+            else
+                # Just remove symlink without backup
+                rm -f "$target"
+                echo "Removed existing symlink: $target"
+            fi
         else
             echo "$target already exists. Skipped."
             return
