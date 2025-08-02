@@ -23,7 +23,7 @@ create_symlink() {
                 echo "Backed up $target to $backup_target"
             else
                 # Just remove symlink without backup
-                rm "$target"
+                rm -f "$target"
                 echo "Removed existing symlink: $target"
             fi
         else
