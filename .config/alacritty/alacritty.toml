@@ -1,3 +1,8 @@
+[general]
+import = [
+    "./theme/themes/monokai_pro.toml",
+]
+
 [window]
 dimensions = { columns = 140, lines = 40 }
 padding = { x = 8, y = 4 }
