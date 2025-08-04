@@ -1,6 +1,6 @@
 [general]
 import = [
-    "~/.config/alacritty/theme/themes/monokai_pro.toml",
+    "./theme/themes/monokai_pro.toml",
 ]
 
 [window]
