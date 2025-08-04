@@ -7,9 +7,21 @@ import = [
 dimensions = { columns = 140, lines = 40 }
 padding = { x = 8, y = 4 }
 
+[scrolling]
+history = 100000
+multiplier = 1
+
 [font]
 bold = {family = "UDEV Gothic 35NFLG", style = "Bold"}
 italic = {family = "UDEV Gothic 35NFLG", style = "Italic"}
 normal = {family = "UDEV Gothic 35NFLG", style = "Regular"}
 size = 14
 offset = { y = 1 }
+
+[cursor]
+style = { shape = "Block", blinking = "On" }
+blink_interval = 500
+blink_timeout = 30
+
+[mouse]
+hide_when_typing = true
