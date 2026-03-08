@@ -65,8 +65,6 @@ cask "claude"
 cask "comfyui"
 # Voice and text chat software
 cask "discord"
-# Client for the Dropbox cloud storage service
-cask "dropbox"
 # Security including web and email protection
 cask "eset-cyber-security"
 # Web browser
@@ -88,8 +86,6 @@ cask "google-chrome"
 cask "google-drive"
 # JetBrains tools manager
 cask "jetbrains-toolbox"
-# End-to-end encryption software
-cask "keybase"
 # GameStream client
 cask "moonlight"
 # App to write, plan, collaborate, and get organised
@@ -112,16 +108,10 @@ cask "steermouse"
 cask "tageditor"
 # Mesh VPN based on WireGuard
 cask "tailscale-app"
-# Native GUI for Homebrew package management
-cask "taphouse"
-# To-do list
-cask "todoist-app"
 # Open-source code editor
 cask "visual-studio-code"
 # Multimedia player
 cask "vlc"
-# GPU-accelerated cross-platform terminal emulator and multiplexer
-cask "wezterm"
 mas "1Password for Safari", id: 1569813296
 mas "BetterSnapTool", id: 417375580
 mas "Display Menu", id: 549083868
