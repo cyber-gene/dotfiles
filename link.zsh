@@ -42,7 +42,7 @@ create_symlink() {
 
 # Handle regular dotfiles
 for file in $script_dir/.*; do
-    baseName="$(basename "$file")" 
+    baseName="$(basename "$file")"
 
     # Exclude ignore files and directories
     if [[ $baseName == "."

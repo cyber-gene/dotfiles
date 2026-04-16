@@ -64,6 +64,12 @@ if ! git -C "$CLONE_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   echo "$CLONE_DIR is not a git repository. Please remove it and re-run this script."
   exit 1
 fi
+ACTUAL_REPO_URL="$(git -C "$CLONE_DIR" remote get-url origin 2>/dev/null)"
+if [ "$ACTUAL_REPO_URL" != "$REPO_URL" ]; then
+  echo "$CLONE_DIR is not the expected repository ($REPO_URL)."
+  echo "Please remove it and re-run this script."
+  exit 1
+fi
 echo "Initializing git submodules..."
 git -C "$CLONE_DIR" submodule update --init --recursive
 if [ $? -ne 0 ]; then
