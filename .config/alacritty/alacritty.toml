@@ -6,6 +6,7 @@ import = [
 [window]
 dimensions = { columns = 140, lines = 40 }
 padding = { x = 8, y = 4 }
+option_as_alt = "Both"
 
 [scrolling]
 history = 100000
