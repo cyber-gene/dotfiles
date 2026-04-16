@@ -2,70 +2,64 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Overview
+## 概要
 
-This is a macOS dotfiles repository that manages shell, editor, terminal, and system configurations via symlinks into `$HOME`.
+macOS のシェル・エディタ・ターミナル・システム設定を `$HOME` へのシンボリックリンクで管理する dotfiles リポジトリ。
 
-## Setup & Installation
+## セットアップ・インストール
 
-**Fresh install (bootstraps everything):**
+**新規インストール（全自動）:**
 ```zsh
 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/cyber-gene/dotfiles/main/install.zsh)"
 ```
+Homebrew・git・zplug のインストール、シンボリックリンクの作成、`brew bundle --global` の実行を行う。
 
-This script installs Homebrew, git, zplug, creates symlinks, and runs `brew bundle --global`.
-
-**Create symlinks only:**
+**シンボリックリンクのみ作成:**
 ```zsh
-./link.zsh       # skip existing targets
-./link.zsh -f    # force overwrite (backs up non-symlink files)
+./link.zsh       # 既存のターゲットはスキップ
+./link.zsh -f    # 強制上書き（非シンボリックリンクはバックアップ）
 ```
 
-**Update Brewfile after installing/removing packages:**
+**Homebrew パッケージ管理:**
 ```zsh
-brew bundle dump --global --no-vscode --force
+brew bundle dump --global --no-vscode --force   # Brewfile を現在の環境に合わせて更新
+brew bundle --global                             # Brewfile からパッケージを一括インストール
 ```
 
-**Install all Homebrew packages from Brewfile:**
-```zsh
-brew bundle --global
-```
+## シンボリックリンクの仕組み
 
-## Repository Structure & Symlinking Logic
+`link.zsh` は以下の2ルールで `$HOME` へシンボリックリンクを作成する:
+- リポジトリルートのドットファイル（`.zshrc` など） → `~/<ファイル名>`
+- `.config/` 内のすべて → `~/.config/<名前>`（`.config` ディレクトリ自体はリンクしない）
 
-`link.zsh` symlinks files into `$HOME` using two rules:
-- All dotfiles at the repo root (e.g. `.zshrc`, `.vimrc`) → `~/<filename>`
-- Everything inside `.config/` → `~/.config/<name>` (not the `.config` dir itself)
+`.git` と `.config` ディレクトリはルートレベルのループから除外される。
 
-The `.git` and `.config` directories are excluded from the root-level symlinking loop.
+## 主要設定ファイル
 
-## Key Configurations
+| ファイル | 用途 |
+|----------|------|
+| `.zshrc` | zplug・Powerlevel10k・fzf を使った Zsh 設定 |
+| `.p10k.zsh` | Powerlevel10k プロンプト設定（`p10k configure` で再生成） |
+| `.vimrc` | vim-plug プラグイン付き Vim 設定 |
+| `.tmux.conf` | tmux 設定（プレフィックスは `C-t` に変更） |
+| `.gitconfig` | Git 設定（1Password SSH エージェント経由でコミット署名） |
+| `.Brewfile` | Homebrew バンドル（`~/.Brewfile` にシンボリックリンク） |
+| `.config/alacritty/alacritty.toml` | Alacritty ターミナル設定 |
 
-| File | Purpose |
-|------|---------|
-| `.zshrc` | Zsh with zplug, Powerlevel10k theme, fzf |
-| `.p10k.zsh` | Powerlevel10k prompt config (generated, edit via `p10k configure`) |
-| `.vimrc` | Vim with vim-plug plugins |
-| `.tmux.conf` | tmux config; prefix remapped to `C-t` |
-| `.gitconfig` | Git config; commits signed via SSH key (1Password ssh-agent) |
-| `.Brewfile` | Homebrew bundle; installed to `~/.Brewfile` via symlink |
-| `.config/alacritty/alacritty.toml` | Alacritty terminal config |
-| `.config/wezterm/wezterm.lua` | WezTerm terminal config |
+## サブモジュール
 
-## Submodules
-
-`.config/alacritty/theme` is a git submodule pointing to `alacritty/alacritty-theme`. After cloning, initialize with:
+`.config/alacritty/theme` は `alacritty/alacritty-theme` を指す git サブモジュール。クローン後に初期化:
 ```zsh
 git submodule update --init --recursive
 ```
 
-## Vim Plugins (vim-plug)
+## Vim プラグイン（vim-plug）
 
-Plugins are declared in `.vimrc` and stored in `.vim/plugged/`. Manage with:
-- `:PlugInstall` — install plugins
-- `:PlugUpdate` — update plugins
-- `:PlugClean` — remove unused plugins
+プラグインは `.vimrc` で宣言し、`.vim/plugged/` に保存される。
+- `:PlugInstall` — インストール
+- `:PlugUpdate` — 更新
+- `:PlugClean` — 未使用プラグインの削除
 
-## Git Signing
+## Git コミット署名
 
-All commits are signed with an SSH key via 1Password (`op-ssh-sign`). The signing key and GPG SSH program are configured in `.gitconfig`. 1Password must be running and unlocked for commits to succeed.
+すべてのコミットは 1Password（`op-ssh-sign`）経由の SSH キーで署名される。コミット時は 1Password が起動・ロック解除されている必要がある。
