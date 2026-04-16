@@ -5,7 +5,15 @@ command_exists() {
   command -v "$1" &>/dev/null
 }
 
-# Install Homebrew
+# Add Homebrew to PATH first (before checking if it's installed)
+# This handles the case where brew is installed but not yet in PATH
+if [[ -f /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -f /usr/local/bin/brew ]]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+# Install Homebrew if still not available
 if ! command_exists brew; then
   echo "Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -13,15 +21,14 @@ if ! command_exists brew; then
     echo "Failed to install Homebrew."
     exit 1
   fi
+  # Add to PATH after installation
+  if [[ -f /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -f /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
 else
   echo "Homebrew is already installed."
-fi
-
-# Add Homebrew to PATH (required on Apple Silicon immediately after install)
-if [[ -f /opt/homebrew/bin/brew ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [[ -f /usr/local/bin/brew ]]; then
-  eval "$(/usr/local/bin/brew shellenv)"
 fi
 
 # Install git
@@ -52,6 +59,10 @@ else
 fi
 
 # Initialize git submodules
+if [[ ! -d "$CLONE_DIR/.git" ]]; then
+  echo "$CLONE_DIR is not a git repository. Please remove it and re-run this script."
+  exit 1
+fi
 echo "Initializing git submodules..."
 git -C "$CLONE_DIR" submodule update --init --recursive
 if [ $? -ne 0 ]; then
