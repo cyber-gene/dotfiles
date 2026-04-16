@@ -17,6 +17,13 @@ else
   echo "Homebrew is already installed."
 fi
 
+# Add Homebrew to PATH (required on Apple Silicon immediately after install)
+if [[ -f /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -f /usr/local/bin/brew ]]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+fi
+
 # Install git
 if ! command_exists git; then
   echo "Installing git..."
@@ -44,6 +51,14 @@ else
   echo "Repository already exists at $CLONE_DIR."
 fi
 
+# Initialize git submodules
+echo "Initializing git submodules..."
+git -C "$CLONE_DIR" submodule update --init --recursive
+if [ $? -ne 0 ]; then
+  echo "Failed to initialize git submodules."
+  exit 1
+fi
+
 # Install zplug
 if [[ -z "$(typeset -f zplug)" && ! -d "$HOME/.zplug" ]]; then
   echo "Installing zplug..."
@@ -64,16 +79,10 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-source ~/.zshrc
-
 # Verify installations
 echo "Verifying installations..."
 command_exists brew && echo "Homebrew installation verified."
 [[ -n "$(typeset -f zplug)" ]] && echo "zplug installation verified."
-
-# Update and upgrade Homebrew
-brew update
-brew upgrade
 
 # Install Homebrew packages
 brew bundle --global
