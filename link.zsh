@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 script_dir=$(cd "$(dirname "$0")" && pwd)
 
 # Parse options
@@ -43,9 +45,12 @@ for file in $script_dir/.*; do
     baseName="$(basename "$file")" 
 
     # Exclude ignore files and directories
-    if [[ $baseName == "." 
-        || $baseName == ".." 
-        || $baseName == ".git" 
+    if [[ $baseName == "."
+        || $baseName == ".."
+        || $baseName == ".git"
+        || $baseName == ".gitignore"
+        || $baseName == ".gitmodules"
+        || $baseName == ".kiri"
         || $baseName == ".config" ]]; then
         continue
     fi
