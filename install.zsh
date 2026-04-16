@@ -5,13 +5,18 @@ command_exists() {
   command -v "$1" &>/dev/null
 }
 
+# Add Homebrew to PATH if brew binary is executable at a known location
+setup_brew_env() {
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
+}
+
 # Add Homebrew to PATH first (before checking if it's installed)
 # This handles the case where brew is installed but not yet in PATH
-if [[ -f /opt/homebrew/bin/brew ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [[ -f /usr/local/bin/brew ]]; then
-  eval "$(/usr/local/bin/brew shellenv)"
-fi
+setup_brew_env
 
 # Install Homebrew if still not available
 if ! command_exists brew; then
@@ -22,11 +27,7 @@ if ! command_exists brew; then
     exit 1
   fi
   # Add to PATH after installation
-  if [[ -f /opt/homebrew/bin/brew ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  elif [[ -f /usr/local/bin/brew ]]; then
-    eval "$(/usr/local/bin/brew shellenv)"
-  fi
+  setup_brew_env
 else
   echo "Homebrew is already installed."
 fi
@@ -59,7 +60,7 @@ else
 fi
 
 # Initialize git submodules
-if [[ ! -d "$CLONE_DIR/.git" ]]; then
+if ! git -C "$CLONE_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   echo "$CLONE_DIR is not a git repository. Please remove it and re-run this script."
   exit 1
 fi
