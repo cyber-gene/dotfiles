@@ -1,0 +1,15 @@
+font-family = UDEV Gothic 35NFLG
+font-size = 14
+font-thicken = true
+
+adjust-cell-height = 20%
+
+theme = JetBrains Darcula
+
+window-height = 40
+window-width = 140
+window-padding-x = 2
+
+auto-update = download
+auto-update-channel = stable
+
