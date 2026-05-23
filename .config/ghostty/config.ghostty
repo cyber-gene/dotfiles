@@ -4,7 +4,7 @@ font-thicken = true
 
 adjust-cell-height = 20%
 
-theme = JetBrains Darcula
+theme = Monokai Pro
 
 window-height = 40
 window-width = 140
