@@ -6,9 +6,11 @@ adjust-cell-height = 20%
 
 theme = Monokai Pro
 
-window-height = 40
-window-width = 140
+window-height = 45
+window-width = 180
 window-padding-x = 2
+
+link-url = true
 
 auto-update = download
 auto-update-channel = stable
