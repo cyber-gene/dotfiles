@@ -1,0 +1,9 @@
+# リポジトリ管理ファイル（$HOME に展開しない）
+.git
+.gitignore
+.claude
+.kiri
+link.zsh
+install.zsh
+README.md
+CLAUDE.md

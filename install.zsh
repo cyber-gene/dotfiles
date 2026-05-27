@@ -59,7 +59,7 @@ else
   echo "Repository already exists at $CLONE_DIR."
 fi
 
-# Initialize git submodules
+# Verify it's the right repo
 if ! git -C "$CLONE_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   echo "$CLONE_DIR is not a git repository. Please remove it and re-run this script."
   exit 1
@@ -70,11 +70,17 @@ if [ "$ACTUAL_REPO_URL" != "$REPO_URL" ]; then
   echo "Please remove it and re-run this script."
   exit 1
 fi
-echo "Initializing git submodules..."
-git -C "$CLONE_DIR" submodule update --init --recursive
-if [ $? -ne 0 ]; then
-  echo "Failed to initialize git submodules."
-  exit 1
+
+# Install chezmoi
+if ! command_exists chezmoi; then
+  echo "Installing chezmoi..."
+  brew install chezmoi
+  if [ $? -ne 0 ]; then
+    echo "Failed to install chezmoi."
+    exit 1
+  fi
+else
+  echo "chezmoi is already installed."
 fi
 
 # Install zplug
@@ -89,18 +95,28 @@ else
   echo "zplug is already installed."
 fi
 
-# Create symlinks
-LINK_SCRIPT="$CLONE_DIR/link.zsh"
-"$LINK_SCRIPT" -f
+# Configure chezmoi source directory
+CHEZMOI_CONFIG="$HOME/.config/chezmoi/chezmoi.toml"
+if [[ ! -f "$CHEZMOI_CONFIG" ]]; then
+  echo "Configuring chezmoi source directory..."
+  mkdir -p "$(dirname "$CHEZMOI_CONFIG")"
+  printf '[chezmoi]\n  sourceDir = "%s"\n' "$CLONE_DIR" > "$CHEZMOI_CONFIG"
+else
+  echo "chezmoi config already exists at $CHEZMOI_CONFIG."
+fi
+
+# Apply dotfiles via chezmoi (replaces link.zsh)
+echo "Applying dotfiles..."
+chezmoi apply
 if [ $? -ne 0 ]; then
-  echo "Failed to create symlinks."
+  echo "Failed to apply dotfiles."
   exit 1
 fi
 
 # Verify installations
 echo "Verifying installations..."
 command_exists brew && echo "Homebrew installation verified."
-[[ -n "$(typeset -f zplug)" ]] && echo "zplug installation verified."
+command_exists chezmoi && echo "chezmoi installation verified."
 
 # Install Homebrew packages
 brew bundle --global

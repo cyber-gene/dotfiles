@@ -40,4 +40,7 @@ fi
 
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
-source /Users/cybergene/.config/op/plugins.sh
+source ~/.config/op/plugins.sh
+
+# Machine-local additions (installer-appended PATH entries, etc.)
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
