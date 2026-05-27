@@ -100,14 +100,16 @@ CHEZMOI_CONFIG="$HOME/.config/chezmoi/chezmoi.toml"
 if [[ ! -f "$CHEZMOI_CONFIG" ]]; then
   echo "Configuring chezmoi source directory..."
   mkdir -p "$(dirname "$CHEZMOI_CONFIG")"
-  printf '[chezmoi]\n  sourceDir = "%s"\n' "$CLONE_DIR" > "$CHEZMOI_CONFIG"
+  printf 'sourceDir = "%s"\n' "$CLONE_DIR" > "$CHEZMOI_CONFIG"
 else
   echo "chezmoi config already exists at $CHEZMOI_CONFIG."
 fi
 
 # Apply dotfiles via chezmoi (replaces link.zsh)
+# Pass --source explicitly to ensure the cloned repo is always used,
+# regardless of what sourceDir the existing config may point to.
 echo "Applying dotfiles..."
-chezmoi apply
+chezmoi apply --source "$CLONE_DIR"
 if [ $? -ne 0 ]; then
   echo "Failed to apply dotfiles."
   exit 1
