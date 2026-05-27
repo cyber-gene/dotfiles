@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 概要
 
-macOS のシェル・エディタ・ターミナル・システム設定を `$HOME` へのシンボリックリンクで管理する dotfiles リポジトリ。
+macOS のシェル・エディタ・ターミナル・システム設定を [chezmoi](https://www.chezmoi.io/) で管理する dotfiles リポジトリ。chezmoi がソースファイルを `$HOME` にコピーして適用する（シンボリックリンクではない）。
 
 ## セットアップ・インストール
 
@@ -12,12 +12,11 @@ macOS のシェル・エディタ・ターミナル・システム設定を `$HO
 ```zsh
 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/cyber-gene/dotfiles/main/install.zsh)"
 ```
-Homebrew・git・zplug のインストール、シンボリックリンクの作成、`brew bundle --global` の実行を行う。
+Homebrew・git・chezmoi・zplug のインストール、chezmoi による dotfiles の適用、`brew bundle --global` の実行を行う。
 
-**シンボリックリンクのみ作成:**
+**chezmoi の適用のみ実行（既存環境の更新）:**
 ```zsh
-./link.zsh       # 既存のターゲットはスキップ
-./link.zsh -f    # 強制上書き（非シンボリックリンクはバックアップ）
+chezmoi apply
 ```
 
 **Homebrew パッケージ管理:**
@@ -26,36 +25,49 @@ brew bundle dump --global --no-vscode --force   # Brewfile を現在の環境に
 brew bundle --global                             # Brewfile からパッケージを一括インストール
 ```
 
-## シンボリックリンクの仕組み
+## chezmoi の仕組み
 
-`link.zsh` は以下の2ルールで `$HOME` へシンボリックリンクを作成する:
-- リポジトリルートのドットファイル（`.zshrc` など） → `~/<ファイル名>`
-- `.config/` 内のすべて → `~/.config/<名前>`（`.config` ディレクトリ自体はリンクしない）
+`~/dotfiles` がソースディレクトリ。`chezmoi apply` 実行時にファイルを `$HOME` にコピーする。
 
-`.git` と `.config` ディレクトリはルートレベルのループから除外される。
+**ファイル命名規則:**
+- `dot_` プレフィックス → `$HOME` では `.` に変換（例: `dot_zshrc` → `~/.zshrc`）
+- `dot_config/` 内のファイル → `~/.config/` 以下にコピー
+
+**除外ファイル（`.chezmoiignore`）:**  
+`install.zsh`・`README.md`・`CLAUDE.md`・`.claude/`・`.kiri/` などはリポジトリ管理用のためコピーしない。
+
+**chezmoi 設定ファイル（Git 管理外）:**  
+`~/.config/chezmoi/chezmoi.toml` に `sourceDir = "~/dotfiles"` を設定する。
 
 ## 主要設定ファイル
 
-| ファイル | 用途 |
-|----------|------|
-| `.zshrc` | zplug・Powerlevel10k・fzf を使った Zsh 設定 |
-| `.p10k.zsh` | Powerlevel10k プロンプト設定（`p10k configure` で再生成） |
-| `.vimrc` | vim-plug プラグイン付き Vim 設定 |
-| `.tmux.conf` | tmux 設定（プレフィックスは `C-t` に変更） |
-| `.gitconfig` | Git 設定（1Password SSH エージェント経由でコミット署名） |
-| `.Brewfile` | Homebrew バンドル（`~/.Brewfile` にシンボリックリンク） |
-| `.config/alacritty/alacritty.toml` | Alacritty ターミナル設定 |
+| ソースファイル | 適用先 | 用途 |
+|----------------|--------|------|
+| `dot_zshrc` | `~/.zshrc` | zplug・Powerlevel10k・fzf を使った Zsh 設定 |
+| `dot_p10k.zsh` | `~/.p10k.zsh` | Powerlevel10k プロンプト設定（`p10k configure` で再生成） |
+| `dot_vimrc` | `~/.vimrc` | vim-plug プラグイン付き Vim 設定 |
+| `dot_tmux.conf` | `~/.tmux.conf` | tmux 設定（プレフィックスは `C-t` に変更） |
+| `dot_gitconfig` | `~/.gitconfig` | Git 設定（1Password SSH エージェント経由でコミット署名） |
+| `dot_Brewfile` | `~/.Brewfile` | Homebrew バンドル |
+| `dot_config/alacritty/alacritty.toml` | `~/.config/alacritty/alacritty.toml` | Alacritty ターミナル設定 |
 
-## サブモジュール
+## alacritty テーマ
 
-`.config/alacritty/theme` は `alacritty/alacritty-theme` を指す git サブモジュール。クローン後に初期化:
+`.chezmoiexternal.toml` で `alacritty/alacritty-theme` を外部 git リポジトリとして管理。`chezmoi apply` 時に `~/.config/alacritty/theme/` へ自動クローン・更新される（168時間ごとに更新）。git サブモジュールは使用していない。
+
+## ローカル専用設定
+
+インストーラーが `~/.zshrc` に PATH 等を追記した場合は `~/.zshrc.local` に移動する。このファイルは Git 管理外で、`~/.zshrc` の末尾で自動的に source される。
+
 ```zsh
-git submodule update --init --recursive
+# インストーラーが ~/.zshrc に書き込んだ行を移動する手順
+chezmoi apply   # ~/.zshrc をソースの状態に戻す（追記内容は消える）
+# → 追記内容は事前に ~/.zshrc.local に移動しておく
 ```
 
 ## Vim プラグイン（vim-plug）
 
-プラグインは `.vimrc` で宣言し、`.vim/plugged/` に保存される。
+プラグインは `dot_vimrc` で宣言し、`~/.vim/plugged/` に保存される（Git 管理外）。
 - `:PlugInstall` — インストール
 - `:PlugUpdate` — 更新
 - `:PlugClean` — 未使用プラグインの削除
