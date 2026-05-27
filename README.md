@@ -14,7 +14,7 @@ Dotfiles are managed by [chezmoi](https://www.chezmoi.io/). The source directory
 |---------|-------------|
 | `chezmoi diff` | Preview what `apply` would change |
 | `chezmoi apply` | Apply source to `$HOME` |
-| `chezmoi edit ~/.zshrc` | Edit a managed file and apply |
+| `chezmoi edit --apply ~/.zshrc` | Edit a managed file and apply immediately |
 | `chezmoi add ~/.foo` | Import a new file into the source |
 | `chezmoi status` | Show which targets are out of sync |
 | `chezmoi re-add` | Re-import all modified targets into source |
