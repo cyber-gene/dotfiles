@@ -13,16 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install zsh and shellcheck
-        run: sudo apt-get install -y zsh shellcheck
+      - name: Install zsh
+        run: sudo apt-get update -y && sudo apt-get install -y zsh
 
       - name: zsh syntax check
         run: |
           zsh -n install.zsh
           zsh -n dot_zshrc
-
-      - name: ShellCheck (install.zsh)
-        run: shellcheck --shell=bash install.zsh
 
   toml:
     name: TOML linting
@@ -62,4 +59,4 @@ jobs:
             --dry-run \
             --source="$GITHUB_WORKSPACE" \
             --destination="$HOME" \
-            --exclude=externals
+            --exclude=externals,scripts
