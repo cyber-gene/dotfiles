@@ -11,7 +11,7 @@ jobs:
     name: Shell linting
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install zsh and shellcheck
         run: sudo apt-get update -y && sudo apt-get install -y zsh shellcheck
@@ -30,7 +30,7 @@ jobs:
     name: TOML linting
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: TOML syntax check
         run: |
@@ -53,7 +53,7 @@ jobs:
     name: chezmoi dry-run
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install chezmoi
         run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
