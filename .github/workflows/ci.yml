@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  shell:
+    name: Shell linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install zsh and shellcheck
+        run: sudo apt-get install -y zsh shellcheck
+
+      - name: zsh syntax check
+        run: |
+          zsh -n install.zsh
+          zsh -n dot_zshrc
+
+      - name: ShellCheck (install.zsh)
+        run: shellcheck --shell=bash install.zsh
+
+  toml:
+    name: TOML linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: TOML syntax check
+        run: |
+          python3 -c "
+          import tomllib, sys
+          files = ['.chezmoiexternal.toml', 'dot_config/alacritty/alacritty.toml']
+          ok = True
+          for f in files:
+              try:
+                  with open(f, 'rb') as fp:
+                      tomllib.load(fp)
+                  print('OK:', f)
+              except Exception as e:
+                  print('ERROR:', f, '-', e)
+                  ok = False
+          sys.exit(0 if ok else 1)
+          "
+
+  chezmoi:
+    name: chezmoi dry-run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install chezmoi
+        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
+
+      - name: chezmoi apply --dry-run
+        run: |
+          chezmoi apply \
+            --dry-run \
+            --source="$GITHUB_WORKSPACE" \
+            --destination="$HOME" \
+            --exclude=externals
