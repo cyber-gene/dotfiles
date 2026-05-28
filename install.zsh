@@ -102,12 +102,16 @@ if [[ ! -f "$CHEZMOI_CONFIG" ]]; then
   mkdir -p "$(dirname "$CHEZMOI_CONFIG")"
   printf 'sourceDir = "%s"\n' "$CLONE_DIR" > "$CHEZMOI_CONFIG"
 else
-  echo "chezmoi config already exists at $CHEZMOI_CONFIG."
+  EXISTING_SOURCE="$(grep '^sourceDir' "$CHEZMOI_CONFIG" | sed 's/sourceDir *= *"\(.*\)"/\1/')"
+  if [[ "$EXISTING_SOURCE" != "$CLONE_DIR" ]]; then
+    echo "Updating chezmoi sourceDir from '$EXISTING_SOURCE' to '$CLONE_DIR'..."
+    sed -i '' "s|^sourceDir *=.*|sourceDir = \"$CLONE_DIR\"|" "$CHEZMOI_CONFIG"
+  else
+    echo "chezmoi config already points to $CLONE_DIR."
+  fi
 fi
 
 # Apply dotfiles via chezmoi (replaces link.zsh)
-# Pass --source explicitly to ensure the cloned repo is always used,
-# regardless of what sourceDir the existing config may point to.
 echo "Applying dotfiles..."
 chezmoi apply --source "$CLONE_DIR"
 if [ $? -ne 0 ]; then
