@@ -1,11 +1,11 @@
 #!/bin/zsh
 
-# Function to check if a command exists
+# コマンドが存在するか確認するユーティリティ関数
 command_exists() {
   command -v "$1" &>/dev/null
 }
 
-# Add Homebrew to PATH if brew binary is executable at a known location
+# brew バイナリが既知の場所にあれば PATH に追加する
 setup_brew_env() {
   if [[ -x /opt/homebrew/bin/brew ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -14,11 +14,10 @@ setup_brew_env() {
   fi
 }
 
-# Add Homebrew to PATH first (before checking if it's installed)
-# This handles the case where brew is installed but not yet in PATH
+# brew がインストール済みでも PATH に含まれていない場合があるため、先に PATH を設定する
 setup_brew_env
 
-# Install Homebrew if still not available
+# それでも brew が見つからなければインストールする
 if ! command_exists brew; then
   echo "Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -26,13 +25,13 @@ if ! command_exists brew; then
     echo "Failed to install Homebrew."
     exit 1
   fi
-  # Add to PATH after installation
+  # インストール後に PATH を再設定する
   setup_brew_env
 else
   echo "Homebrew is already installed."
 fi
 
-# Install git
+# git をインストールする
 if ! command_exists git; then
   echo "Installing git..."
   brew install git
@@ -44,7 +43,7 @@ else
   echo "git is already installed."
 fi
 
-# Clone repository
+# リポジトリをクローンする
 REPO_URL="https://github.com/cyber-gene/dotfiles.git"
 CLONE_DIR="$HOME/dotfiles"
 
@@ -56,10 +55,16 @@ if [ ! -d "$CLONE_DIR" ]; then
     exit 1
   fi
 else
-  echo "Repository already exists at $CLONE_DIR."
+  # 既存の clone が旧レイアウトの場合も最新化してから apply する
+  echo "Repository already exists at $CLONE_DIR. Pulling latest..."
+  git -C "$CLONE_DIR" pull
+  if [ $? -ne 0 ]; then
+    echo "Failed to pull latest changes."
+    exit 1
+  fi
 fi
 
-# Initialize git submodules
+# 正しいリポジトリかどうかを検証する
 if ! git -C "$CLONE_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   echo "$CLONE_DIR is not a git repository. Please remove it and re-run this script."
   exit 1
@@ -70,14 +75,20 @@ if [ "$ACTUAL_REPO_URL" != "$REPO_URL" ]; then
   echo "Please remove it and re-run this script."
   exit 1
 fi
-echo "Initializing git submodules..."
-git -C "$CLONE_DIR" submodule update --init --recursive
-if [ $? -ne 0 ]; then
-  echo "Failed to initialize git submodules."
-  exit 1
+
+# chezmoi をインストールする
+if ! command_exists chezmoi; then
+  echo "Installing chezmoi..."
+  brew install chezmoi
+  if [ $? -ne 0 ]; then
+    echo "Failed to install chezmoi."
+    exit 1
+  fi
+else
+  echo "chezmoi is already installed."
 fi
 
-# Install zplug
+# zplug をインストールする
 if [[ -z "$(typeset -f zplug)" && ! -d "$HOME/.zplug" ]]; then
   echo "Installing zplug..."
   curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
@@ -89,18 +100,40 @@ else
   echo "zplug is already installed."
 fi
 
-# Create symlinks
-LINK_SCRIPT="$CLONE_DIR/link.zsh"
-"$LINK_SCRIPT" -f
+# chezmoi のソースディレクトリを設定する
+CHEZMOI_CONFIG="$HOME/.config/chezmoi/chezmoi.toml"
+if [[ ! -f "$CHEZMOI_CONFIG" ]]; then
+  echo "Configuring chezmoi source directory..."
+  mkdir -p "$(dirname "$CHEZMOI_CONFIG")"
+  printf 'sourceDir = "%s"\n' "$CLONE_DIR" > "$CHEZMOI_CONFIG"
+else
+  EXISTING_SOURCE="$(grep '^sourceDir' "$CHEZMOI_CONFIG" | sed 's/sourceDir *= *"\(.*\)"/\1/')"
+  if [[ "$EXISTING_SOURCE" != "$CLONE_DIR" ]]; then
+    echo "Updating chezmoi sourceDir from '${EXISTING_SOURCE:-<not set>}' to '$CLONE_DIR'..."
+    if grep -q '^sourceDir' "$CHEZMOI_CONFIG"; then
+      # 既存の sourceDir 行を上書きする
+      sed -i '' "s|^sourceDir *=.*|sourceDir = \"$CLONE_DIR\"|" "$CHEZMOI_CONFIG"
+    else
+      # sourceDir 行がない場合は追記する
+      printf 'sourceDir = "%s"\n' "$CLONE_DIR" >> "$CHEZMOI_CONFIG"
+    fi
+  else
+    echo "chezmoi config already points to $CLONE_DIR."
+  fi
+fi
+
+# chezmoi で dotfiles を適用する（link.zsh の代替）
+echo "Applying dotfiles..."
+chezmoi apply --source "$CLONE_DIR"
 if [ $? -ne 0 ]; then
-  echo "Failed to create symlinks."
+  echo "Failed to apply dotfiles."
   exit 1
 fi
 
-# Verify installations
+# インストールを確認する
 echo "Verifying installations..."
 command_exists brew && echo "Homebrew installation verified."
-[[ -n "$(typeset -f zplug)" ]] && echo "zplug installation verified."
+command_exists chezmoi && echo "chezmoi installation verified."
 
-# Install Homebrew packages
+# Homebrew パッケージを一括インストールする
 brew bundle --global

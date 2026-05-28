@@ -1,0 +1,13 @@
+# リポジトリ管理ファイル（$HOME に展開しない）
+.git
+.gitignore
+.claude
+.kiri
+link.zsh
+install.zsh
+README.md
+CLAUDE.md
+
+# vim-plug が管理するプラグインディレクトリ（実行時に :PlugInstall で生成）
+.vim/plugged/
+.vim/.netrwhist
