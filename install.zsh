@@ -20,8 +20,7 @@ setup_brew_env
 # それでも brew が見つからなければインストールする
 if ! command_exists brew; then
   echo "Installing Homebrew..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  if [ $? -ne 0 ]; then
+  if ! /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; then
     echo "Failed to install Homebrew."
     exit 1
   fi
@@ -34,8 +33,7 @@ fi
 # git をインストールする
 if ! command_exists git; then
   echo "Installing git..."
-  brew install git
-  if [ $? -ne 0 ]; then
+  if ! brew install git; then
     echo "Failed to install git."
     exit 1
   fi
@@ -49,16 +47,14 @@ CLONE_DIR="$HOME/dotfiles"
 
 if [ ! -d "$CLONE_DIR" ]; then
   echo "Cloning repository..."
-  git clone "$REPO_URL" "$CLONE_DIR"
-  if [ $? -ne 0 ]; then
+  if ! git clone "$REPO_URL" "$CLONE_DIR"; then
     echo "Failed to clone repository."
     exit 1
   fi
 else
   # 既存の clone が旧レイアウトの場合も最新化してから apply する
   echo "Repository already exists at $CLONE_DIR. Pulling latest..."
-  git -C "$CLONE_DIR" pull
-  if [ $? -ne 0 ]; then
+  if ! git -C "$CLONE_DIR" pull; then
     echo "Failed to pull latest changes."
     exit 1
   fi
@@ -79,8 +75,7 @@ fi
 # chezmoi をインストールする
 if ! command_exists chezmoi; then
   echo "Installing chezmoi..."
-  brew install chezmoi
-  if [ $? -ne 0 ]; then
+  if ! brew install chezmoi; then
     echo "Failed to install chezmoi."
     exit 1
   fi
@@ -91,8 +86,7 @@ fi
 # zplug をインストールする
 if [[ -z "$(typeset -f zplug)" && ! -d "$HOME/.zplug" ]]; then
   echo "Installing zplug..."
-  curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-  if [ $? -ne 0 ]; then
+  if ! curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh; then
     echo "Failed to install zplug."
     exit 1
   fi
@@ -124,8 +118,7 @@ fi
 
 # chezmoi で dotfiles を適用する（link.zsh の代替）
 echo "Applying dotfiles..."
-chezmoi apply --source "$CLONE_DIR"
-if [ $? -ne 0 ]; then
+if ! chezmoi apply --source "$CLONE_DIR"; then
   echo "Failed to apply dotfiles."
   exit 1
 fi
