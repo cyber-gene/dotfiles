@@ -56,7 +56,12 @@ if [ ! -d "$CLONE_DIR" ]; then
     exit 1
   fi
 else
-  echo "Repository already exists at $CLONE_DIR."
+  echo "Repository already exists at $CLONE_DIR. Pulling latest..."
+  git -C "$CLONE_DIR" pull
+  if [ $? -ne 0 ]; then
+    echo "Failed to pull latest changes."
+    exit 1
+  fi
 fi
 
 # Verify it's the right repo
@@ -104,8 +109,12 @@ if [[ ! -f "$CHEZMOI_CONFIG" ]]; then
 else
   EXISTING_SOURCE="$(grep '^sourceDir' "$CHEZMOI_CONFIG" | sed 's/sourceDir *= *"\(.*\)"/\1/')"
   if [[ "$EXISTING_SOURCE" != "$CLONE_DIR" ]]; then
-    echo "Updating chezmoi sourceDir from '$EXISTING_SOURCE' to '$CLONE_DIR'..."
-    sed -i '' "s|^sourceDir *=.*|sourceDir = \"$CLONE_DIR\"|" "$CHEZMOI_CONFIG"
+    echo "Updating chezmoi sourceDir from '${EXISTING_SOURCE:-<not set>}' to '$CLONE_DIR'..."
+    if grep -q '^sourceDir' "$CHEZMOI_CONFIG"; then
+      sed -i '' "s|^sourceDir *=.*|sourceDir = \"$CLONE_DIR\"|" "$CHEZMOI_CONFIG"
+    else
+      printf 'sourceDir = "%s"\n' "$CLONE_DIR" >> "$CHEZMOI_CONFIG"
+    fi
   else
     echo "chezmoi config already points to $CLONE_DIR."
   fi
