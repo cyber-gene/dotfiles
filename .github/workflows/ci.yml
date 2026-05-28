@@ -13,13 +13,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install zsh
-        run: sudo apt-get update -y && sudo apt-get install -y zsh
+      - name: Install zsh and shellcheck
+        run: sudo apt-get update -y && sudo apt-get install -y zsh shellcheck
 
       - name: zsh syntax check
         run: |
           zsh -n install.zsh
           zsh -n dot_zshrc
+
+      - name: ShellCheck
+        run: |
+          shellcheck --shell=bash install.zsh
+          shellcheck --shell=bash dot_zshrc
 
   toml:
     name: TOML linting
