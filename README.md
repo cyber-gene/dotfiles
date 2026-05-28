@@ -1,36 +1,39 @@
 # dotfiles
 
-## Install
+## インストール
 
-1. Run ```zsh -c "$(curl -fsSL https://raw.githubusercontent.com/cyber-gene/dotfiles/main/install.zsh)"```
+1. 以下のコマンドを実行する:
+   ```zsh
+   zsh -c "$(curl -fsSL https://raw.githubusercontent.com/cyber-gene/dotfiles/main/install.zsh)"
+   ```
 
-## Maintenance
+## メンテナンス
 
 ### chezmoi
 
-Dotfiles are managed by [chezmoi](https://www.chezmoi.io/). The source directory is `~/dotfiles` and files are copied (not symlinked) to `$HOME`.
+dotfiles は [chezmoi](https://www.chezmoi.io/) で管理している。ソースディレクトリは `~/dotfiles` で、ファイルは `$HOME` にコピーされる（シンボリックリンクではない）。
 
-| Command | Description |
-|---------|-------------|
-| `chezmoi diff` | Preview what `apply` would change |
-| `chezmoi apply` | Apply source to `$HOME` |
-| `chezmoi edit --apply ~/.zshrc` | Edit a managed file and apply immediately |
-| `chezmoi add ~/.foo` | Import a new file into the source |
-| `chezmoi status` | Show which targets are out of sync |
-| `chezmoi re-add` | Re-import all modified targets into source |
+| コマンド | 説明 |
+|---------|------|
+| `chezmoi diff` | `apply` で変更される内容をプレビューする |
+| `chezmoi apply` | ソースを `$HOME` に適用する |
+| `chezmoi edit --apply ~/.zshrc` | 管理ファイルを編集してすぐに適用する |
+| `chezmoi add ~/.foo` | 新しいファイルをソースに取り込む |
+| `chezmoi status` | 同期が取れていないファイルを確認する |
+| `chezmoi re-add` | 変更済みのファイルをすべてソースに再取り込みする |
 
-**After a git pull:**
+**git pull 後の適用:**
 ```zsh
 git pull && chezmoi apply
 ```
 
-**Machine-local config** (not tracked by git): add to `~/.zshrc.local`.
-Useful for PATH entries that installers append automatically.
+**マシン固有の設定**（git 管理外）: `~/.zshrc.local` に追記する。
+インストーラーが自動で追加した PATH エントリなどを置く場所として使う。
 
-### Update Brewfile
+### Brewfile の更新
 
-1. Execute ```brew bundle dump``` command.
-    ```zsh
-    brew bundle dump --global --no-vscode --force
-    ```
-    If you manage VS Code extensions with Homebrew, make sure to exclude the ```--no-vscode``` option.
+1. 以下のコマンドを実行する:
+   ```zsh
+   brew bundle dump --global --no-vscode --force
+   ```
+   VS Code 拡張を Homebrew で管理している場合は `--no-vscode` を外す。
