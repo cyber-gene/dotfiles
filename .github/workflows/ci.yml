@@ -35,10 +35,12 @@ jobs:
       - name: TOML syntax check
         run: |
           python3 -c "
-          import tomllib, sys
-          files = ['.chezmoiexternal.toml', 'dot_config/alacritty/alacritty.toml']
+          import tomllib, sys, pathlib
+          skip = set()
           ok = True
-          for f in files:
+          for f in sorted(pathlib.Path('.').rglob('*.toml')):
+              if f in skip:
+                  continue
               try:
                   with open(f, 'rb') as fp:
                       tomllib.load(fp)
