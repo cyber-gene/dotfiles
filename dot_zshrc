@@ -20,9 +20,6 @@ fi
 # Make sure to use double quotes
 zplug load
 
-# Starship prompt
-eval "$(starship init zsh)"
-
 # brew zsh-completions
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
@@ -36,3 +33,6 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 # Machine-local additions (installer-appended PATH entries, etc.)
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+# Starship prompt (must be last)
+eval "$(starship init zsh)"
