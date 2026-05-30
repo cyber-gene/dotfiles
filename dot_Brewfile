@@ -1,6 +1,5 @@
 tap "homebrew/bundle"
 tap "lizardbyte/homebrew"
-tap "mtgto/macskk"
 # Cross-platform make
 brew "cmake"
 # Free lossless audio codec
@@ -9,8 +8,6 @@ brew "flac"
 brew "ffmpeg"
 # Open-source, cross-platform JavaScript runtime environment
 brew "node"
-# Interact with Google Gemini AI models from the command-line
-brew "gemini-cli"
 # Distributed revision control system
 brew "git"
 # GNU Privacy Guard (OpenPGP)
@@ -33,8 +30,6 @@ brew "sevenzip"
 brew "swaks"
 # Terminal multiplexer
 brew "tmux"
-# Terminal UI OS (Terminal Multiplexer)
-brew "tuios"
 # Internet file retriever
 brew "wget"
 # JavaScript package manager
@@ -57,8 +52,6 @@ cask "antigravity"
 cask "balenaetcher"
 # Display management tool
 cask "betterdisplay"
-# Web browser focusing on privacy
-cask "brave-browser"
 # OpenAI's official ChatGPT desktop app
 cask "chatgpt"
 # Anthropic's official Claude AI desktop app
@@ -94,8 +87,6 @@ cask "moonlight"
 cask "notion"
 # Open-source software for live streaming and screen recording
 cask "obs"
-# Knowledge base that works on top of a local folder of plain text Markdown files
-cask "obsidian"
 # Client for Proton Drive
 cask "proton-drive"
 # Client for Proton Mail and Proton Calendar
@@ -117,13 +108,10 @@ cask "vlc"
 mas "1Password for Safari", id: 1569813296
 mas "BetterSnapTool", id: 417375580
 mas "Display Menu", id: 549083868
-mas "iMovie", id: 408981434
 mas "Ivory", id: 6444602274
-mas "Keynote", id: 409183694
 mas "LINE", id: 539883307
 mas "NextDNS", id: 1464122853
 mas "Numbers", id: 409203825
-mas "Pages", id: 409201541
 mas "RunCat", id: 1429033973
 mas "Tag Editor 2", id: 984278082
 mas "The Unarchiver", id: 425424353
