@@ -2,10 +2,22 @@
 
 ## インストール
 
+### macOS
+
 1. 以下のコマンドを実行する:
 
    ```zsh
    zsh -c "$(curl -fsSL https://raw.githubusercontent.com/cyber-gene/dotfiles/main/install.zsh)"
+   ```
+
+### Ubuntu / WSL
+
+Homebrew を使わず、`apt` で最小限の依存パッケージのみをインストールする。
+
+1. 以下のコマンドを実行する:
+
+   ```bash
+   bash -c "$(curl -fsSL https://raw.githubusercontent.com/cyber-gene/dotfiles/main/install-ubuntu.sh)"
    ```
 
 ## メンテナンス
