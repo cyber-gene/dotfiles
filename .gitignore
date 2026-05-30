@@ -1,3 +1,4 @@
 .DS_Store
 dot_vim/.netrwhist
 dot_vim/plugged/
+node_modules/

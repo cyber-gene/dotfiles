@@ -8,6 +8,9 @@ link.zsh
 install.zsh
 README.md
 CLAUDE.md
+package.json
+package-lock.json
+node_modules
 
 # vim-plug が管理するプラグインディレクトリ（実行時に :PlugInstall で生成）
 .vim/plugged/
