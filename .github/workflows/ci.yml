@@ -18,12 +18,15 @@ jobs:
 
       - name: zsh syntax check
         run: |
-          zsh -n install.zsh
+          find . -name '*.zsh' -not -path './node_modules/*' -print0 | xargs -0 -I{} zsh -n {}
           zsh -n dot_zshrc
+
+      - name: bash syntax check
+        run: find . -name '*.sh' -not -path './node_modules/*' -print0 | xargs -0 bash -n
 
       - name: ShellCheck
         run: |
-          shellcheck --shell=bash install.zsh
+          find . \( -name '*.zsh' -o -name '*.sh' \) -not -path './node_modules/*' -print0 | xargs -0 shellcheck --shell=bash
           shellcheck --shell=bash dot_zshrc
 
   toml:
