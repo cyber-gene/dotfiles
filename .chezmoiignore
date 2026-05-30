@@ -1,7 +1,8 @@
 # リポジトリ管理ファイル（$HOME に展開しない）
 .git
 .gitignore
-.claude
+.claude/*
+!.claude/CLAUDE.md
 .kiri
 link.zsh
 install.zsh
