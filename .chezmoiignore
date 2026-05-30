@@ -6,6 +6,7 @@
 .kiri
 link.zsh
 install.zsh
+install-ubuntu.sh
 README.md
 CLAUDE.md
 package.json

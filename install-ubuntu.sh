@@ -48,20 +48,19 @@ if [ ! -d "$CLONE_DIR" ]; then
   echo ">>> dotfiles リポジトリをクローン..."
   git clone "$REPO_URL" "$CLONE_DIR"
 else
+  # pull の前に remote URL を検証し、別リポジトリには触れない
+  if ! git -C "$CLONE_DIR" rev-parse --is-inside-work-tree &>/dev/null; then
+    echo "エラー: $CLONE_DIR は git リポジトリではありません。削除して再実行してください。"
+    exit 1
+  fi
+  ACTUAL_REPO_URL="$(git -C "$CLONE_DIR" remote get-url origin 2>/dev/null)"
+  if [ "$ACTUAL_REPO_URL" != "$REPO_URL" ]; then
+    echo "エラー: $CLONE_DIR は想定外のリポジトリです（$REPO_URL ではありません）。"
+    echo "削除して再実行してください。"
+    exit 1
+  fi
   echo ">>> dotfiles リポジトリを最新化..."
   git -C "$CLONE_DIR" pull
-fi
-
-# リポジトリの正当性を確認
-if ! git -C "$CLONE_DIR" rev-parse --is-inside-work-tree &>/dev/null; then
-  echo "エラー: $CLONE_DIR は git リポジトリではありません。削除して再実行してください。"
-  exit 1
-fi
-ACTUAL_REPO_URL="$(git -C "$CLONE_DIR" remote get-url origin 2>/dev/null)"
-if [ "$ACTUAL_REPO_URL" != "$REPO_URL" ]; then
-  echo "エラー: $CLONE_DIR は想定外のリポジトリです（$REPO_URL ではありません）。"
-  echo "削除して再実行してください。"
-  exit 1
 fi
 
 # ─── zplug ───────────────────────────────────────────────────────────────────
@@ -81,7 +80,7 @@ if [[ ! -f "$CHEZMOI_CONFIG" ]]; then
   mkdir -p "$(dirname "$CHEZMOI_CONFIG")"
   printf 'sourceDir = "%s"\n' "$CLONE_DIR" > "$CHEZMOI_CONFIG"
 else
-  EXISTING_SOURCE="$(grep '^sourceDir' "$CHEZMOI_CONFIG" | sed 's/sourceDir *= *"\(.*\)"/\1/')"
+  EXISTING_SOURCE="$(grep '^sourceDir' "$CHEZMOI_CONFIG" | sed 's/sourceDir *= *"\(.*\)"/\1/' || true)"
   if [[ "$EXISTING_SOURCE" != "$CLONE_DIR" ]]; then
     echo ">>> chezmoi sourceDir を更新: ${EXISTING_SOURCE:-<未設定>} → $CLONE_DIR"
     sed -i "s|^sourceDir *=.*|sourceDir = \"$CLONE_DIR\"|" "$CHEZMOI_CONFIG"
@@ -100,9 +99,15 @@ chezmoi apply --source "$CLONE_DIR"
 
 GITCONFIG="$HOME/.gitconfig"
 if grep -q '/Applications/1Password.app' "$GITCONFIG" 2>/dev/null; then
-  echo ">>> gitconfig の op-ssh-sign パスを Linux 向けに更新..."
-  OP_SSH_SIGN="$(command -v op-ssh-sign 2>/dev/null || echo '/usr/bin/op-ssh-sign')"
-  sed -i "s|/Applications/1Password.app/Contents/MacOS/op-ssh-sign|$OP_SSH_SIGN|" "$GITCONFIG"
+  OP_SSH_SIGN="$(command -v op-ssh-sign 2>/dev/null || true)"
+  if [[ -n "$OP_SSH_SIGN" ]]; then
+    echo ">>> gitconfig の op-ssh-sign パスを Linux 向けに更新: $OP_SSH_SIGN"
+    sed -i "s|/Applications/1Password.app/Contents/MacOS/op-ssh-sign|$OP_SSH_SIGN|" "$GITCONFIG"
+  else
+    echo ">>> 警告: op-ssh-sign が見つかりません。gitconfig の署名設定は未更新です。"
+    echo "         1Password Desktop (Linux) をインストール後、~/.gitconfig の"
+    echo "         gpg.ssh.program を手動で設定してください。"
+  fi
 fi
 
 # ─── デフォルトシェルを zsh に設定 ───────────────────────────────────────────
@@ -148,11 +153,14 @@ cat <<'EOF'
   3. vim プラグインをインストールする
        vim +PlugInstall +qall
   4. 1Password SSH エージェントの設定（コミット署名用）:
-     ・Windows 版 1Password を使う場合:
+     op-ssh-sign は 1Password Desktop (Linux) に同梱されています。
+     ・Linux 版 1Password Desktop をインストールする:
+         https://1password.com/downloads/linux/
+     ・インストール後、~/.gitconfig の gpg.ssh.program が
+         自動設定されていない場合は手動で op-ssh-sign のパスを記入する
+     ・WSL から Windows 版 1Password を使う場合:
          - 1Password の設定 → 開発者 → SSH Agent を有効化
          - ~/.zshrc.local の SSH_AUTH_SOCK 行のコメントを外す
-     ・Linux 版 1Password CLI を使う場合:
-         apt install 1password-cli の後 op signin を実行
   5. マシン固有の設定は ~/.zshrc.local に追記してください
 
 EOF
