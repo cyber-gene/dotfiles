@@ -8,10 +8,18 @@ Unless a project-level CLAUDE.md specifies otherwise, follow **GitHub Flow**:
 
 ## Language
 
+リモート URL が `github.com/cyber-gene/` を含む場合は自分のリポジトリとみなす。それ以外は他者のリポジトリとして扱う。
+
+### 自分のリポジトリ
+
 - コミットメッセージ、PR タイトル・サマリー・コードレビューコメントは**日本語**で書く
 - コードコメントは**既存コードの慣例に従う**
 - ブランチ名のプレフィックス（`feature/`, `fix/`, `chore/` など）は英語のままにする
   - 例: `feature/ログイン機能追加`, `fix/nullポインタクラッシュ修正`
+
+### 他者のリポジトリ
+
+- コミットメッセージ・PR タイトル・サマリー・コードレビューコメント・コードコメントのすべてをそのリポジトリの既存の慣例に従う
 
 ## Code Design
 
