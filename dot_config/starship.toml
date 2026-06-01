@@ -6,6 +6,7 @@ $directory\
 $git_branch\
 $git_status\
 $git_state\
+$git_commit\
 $line_break\
 $character"""
 
