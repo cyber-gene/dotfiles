@@ -18,6 +18,8 @@ $python\
 $nodejs\
 $ruby\
 $golang\
+$dotnet\
+$docker_context\
 $terraform\
 $kubernetes\
 $aws\
@@ -35,9 +37,65 @@ style = "bold white"
 disabled = false
 
 [os.symbols]
-Macos = ""
-Linux = ""
-Windows = ""
+AIX = " "
+AlmaLinux = " "
+Alpaquita = " "
+Alpine = " "
+ALTLinux = " "
+Amazon = " "
+Android = " "
+AOSC = " "
+Arch = " "
+Artix = " "
+Bluefin = " "
+CachyOS = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Elementary = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = " "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = " "
+InstantOS = " "
+Ios = "󰀷 "
+Kali = " "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+Nobara = " "
+OpenBSD = " "
+OpenCloudOS = " "
+openEuler = " "
+openSUSE = " "
+OracleLinux = "󰺡 "
+PikaOS = " "
+Pop = " "
+Raspbian = " "
+Redhat = "󱄛 "
+RedHatEnterprise = "󱄛 "
+Redox = "󰀘 "
+RockyLinux = " "
+Solus = " "
+SUSE = " "
+Ubuntu = " "
+Ultramarine = " "
+Unknown = " "
+Uos = " "
+Void = " "
+Windows = "󰍲 "
+Zorin = " "
+
 
 [directory]
 format = "[$path]($style)[$read_only]($read_only_style) "
@@ -74,6 +132,9 @@ conflicted = "~${count}"
 format = '\([$state( $progress_current/$progress_total)]($style)\) '
 style = "bold red"
 
+[git_commit]
+tag_symbol = '  '
+
 [character]
 success_symbol = "[❯](bold green)"
 error_symbol = "[❯](bold red)"
@@ -107,7 +168,7 @@ symbol_threshold = 1
 
 [direnv]
 format = "[$symbol$loaded/$allowed]($style) "
-symbol = "direnv "
+symbol = " "
 style = "bold orange"
 disabled = false
 allowed_msg = ""
@@ -116,23 +177,37 @@ denied_msg = "!!"
 loaded_msg = ""
 unloaded_msg = ""
 
+[docker_context]
+format = "[$symbol$context]($style) "
+symbol = " "
+style = "bold blue"
+detect_files = ["docker-compose.yml", "docker-compose.yaml", "Dockerfile"]
+only_with_files = true
+
+[dotnet]
+format = "[$symbol($version)(  $tfm)]($style) "
+symbol = " "
+style = "bold purple"
+detect_files = ["global.json", "project.json", "Directory.Build.props", "Directory.Build.targets", "Packages.props"]
+detect_extensions = ["csproj", "fsproj", "xproj", "sln"]
+
 [python]
 format = '[$symbol$pyenv_prefix($version)(\($virtualenv\))]($style) '
-symbol = " "
+symbol = " "
 style = "bold yellow"
 detect_files = ["requirements.txt", "setup.py", "setup.cfg", "pyproject.toml", "Pipfile", ".python-version"]
 detect_extensions = ["py"]
 
 [nodejs]
 format = "[$symbol($version)]($style) "
-symbol = "󰎙 "
+symbol = " "
 style = "bold green"
 detect_files = ["package.json", ".nvmrc", ".node-version"]
 detect_extensions = ["js", "ts", "mjs", "cjs"]
 
 [ruby]
 format = "[$symbol($version)]($style) "
-symbol = " "
+symbol = " "
 style = "bold red"
 detect_files = ["Gemfile", ".ruby-version"]
 detect_extensions = ["rb"]
@@ -146,7 +221,7 @@ detect_extensions = ["go"]
 
 [kubernetes]
 format = "[$symbol$context( \\($namespace\\))]($style) "
-symbol = "☸ "
+symbol = "󱃾 "
 style = "bold cyan"
 disabled = false
 
@@ -159,12 +234,12 @@ detect_extensions = ["tf", "tfvars"]
 
 [aws]
 format = '[$symbol($profile)(\[$duration\])]($style) '
-symbol = "󰸏 "
+symbol = " "
 style = "bold yellow"
 
 [gcloud]
 format = '[$symbol$account(@$domain)(\($project\))]($style) '
-symbol = " "
+symbol = "󱇶 "
 style = "bold blue"
 
 [azure]
