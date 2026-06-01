@@ -181,7 +181,7 @@ unloaded_msg = ""
 format = "[$symbol$context]($style) "
 symbol = " "
 style = "bold blue"
-detect_files = ["docker-compose.yml", "docker-compose.yaml", "Dockerfile"]
+detect_files = ["docker-compose.yml", "docker-compose.yaml", "compose.yml", "compose.yaml", "Dockerfile"]
 only_with_files = true
 
 [dotnet]
