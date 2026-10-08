@@ -55,10 +55,11 @@ Neovim の設定は `dot_config/nvim/` で管理し、chezmoi が `~/.config/nvi
 | `lua/plugins/init.lua` | プラグイン設定とキーマッピング |
 | `lazy-lock.json` | プラグインの固定バージョン |
 
-Neovim と Git をインストールして `chezmoi apply` を実行し、`nvim` を起動する。
+Neovim 0.11.0 以上と Git をインストールして `chezmoi apply` を実行し、`nvim` を起動する。
 初回起動では lazy.nvim とプラグインを自動で取得するため、ネットワーク接続が必要。
 保存済みのプラグインバージョンを復元するには `:Lazy restore` を実行する。
 全文検索の `Space fg` には ripgrep (`rg`) が必要。
+アイコン表示には Nerd Font 3.3 以上をインストールし、端末で使用するフォントとして選択する。
 
 設定を編集して適用する:
 
