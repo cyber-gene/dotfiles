@@ -29,6 +29,18 @@ jobs:
           find . \( -name '*.zsh' -o -name '*.sh' \) -not -path './node_modules/*' -print0 | xargs -0 shellcheck --shell=bash
           shellcheck --shell=bash dot_zshrc
 
+  lua:
+    name: Lua linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install Selene
+        run: cargo install selene --version 0.31.0 --locked
+
+      - name: Lint Neovim configuration
+        run: selene dot_config/nvim
+
   toml:
     name: TOML linting
     runs-on: ubuntu-latest
