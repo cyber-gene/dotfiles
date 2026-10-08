@@ -1,0 +1,10 @@
+{
+  "fzf": { "branch": "master", "commit": "33a3456921a17c53f42f8610783b6d379d652d3e" },
+  "fzf-lua": { "branch": "main", "commit": "ed0e0ead1789ee349cbf025900931fb402b1e05e" },
+  "gitsigns.nvim": { "branch": "main", "commit": "851a051e2bd2caba97e23314c68d69f1b1cf5d19" },
+  "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
+  "lualine.nvim": { "branch": "master", "commit": "221ce6b2d999187044529f49da6554a92f740a96" },
+  "neogit": { "branch": "master", "commit": "70708be9664b7fcdd010eb07bdc3ebc9311c2027" },
+  "nvim-surround": { "branch": "main", "commit": "2e93e154de9ff326def6480a4358bfc149d5da2c" },
+  "nvim-web-devicons": { "branch": "master", "commit": "58447c1fca354bbf184425e4a8d01deecbd6f3c4" }
+}
