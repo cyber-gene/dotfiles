@@ -11,6 +11,8 @@ README.md
 CLAUDE.md
 package.json
 package-lock.json
+selene.toml
+neovim.yml
 node_modules
 
 # vim-plug が管理するプラグインディレクトリ（実行時に :PlugInstall で生成）

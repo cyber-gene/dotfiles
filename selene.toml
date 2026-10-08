@@ -1,0 +1,5 @@
+std = "lua51+neovim"
+
+[lints]
+# lazy.nvim specs intentionally combine positional entries and named options.
+mixed_table = "allow"

@@ -75,6 +75,20 @@ chezmoi add ~/.config/nvim/lazy-lock.json
 
 プラグイン本体・キャッシュは管理対象に含めない。
 
+### Lua lint
+
+Neovim の Lua 設定は [Selene](https://github.com/Kampfkarren/selene) で検査する。
+CI は pull request と main への push 時に実行する。
+`selene.toml` と `neovim.yml` は lint 専用で、chezmoi の適用対象には含めない。
+Neovim の `vim` グローバルを許可するが、API 名や引数の型までは検証しない。
+
+Rust / Cargo がある環境では、CI と同じバージョンを導入して実行できる:
+
+```zsh
+cargo install selene --version 0.31.0 --locked
+selene dot_config/nvim
+```
+
 ### Brewfile の更新
 
 1. 以下のコマンドを実行する:
