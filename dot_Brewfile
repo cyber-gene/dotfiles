@@ -1,43 +1,75 @@
 tap "homebrew/bundle"
-tap "lizardbyte/homebrew"
+tap "lizardbyte/homebrew", "https://github.com/LizardByte/homebrew-homebrew"
+tap "manaflow-ai/cmux"
+tap "yuki-yano/shitsurae"
+# Incredibly fast JavaScript runtime, bundler, test runner, and package manager
+brew "bun"
+# Manage your dotfiles across multiple diverse machines, securely
+brew "chezmoi"
 # Cross-platform make
 brew "cmake"
+# Pack, ship and run any application as a lightweight container
+brew "docker"
+# Play, record, convert, and stream select audio and video codecs
+brew "ffmpeg"
 # Free lossless audio codec
 brew "flac"
-# Play, record, convert, and stream audio and video
-brew "ffmpeg"
-# Open-source, cross-platform JavaScript runtime environment
-brew "node"
+# Command-line fuzzy finder written in Go
+brew "fzf"
+# GitHub command-line tool
+brew "gh"
 # Distributed revision control system
 brew "git"
 # GNU Privacy Guard (OpenPGP)
 brew "gnupg"
+# Tools and libraries to manipulate images in select formats
+brew "imagemagick"
+# Update of iperf: measures TCP, UDP, and SCTP bandwidth
+brew "iperf3"
 # Mac App Store command-line interface
 brew "mas"
+# Ambitious Vim-fork focused on extensibility and agility
+brew "neovim"
+# Open-source, cross-platform JavaScript runtime environment
+brew "node"
 # Protocol buffers (Google's data interchange format)
 brew "protobuf"
 # Python version management
 brew "pyenv"
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.10"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.14"
 # Rsync for cloud storage
 brew "rclone"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
 # Safe, concurrent, practical language
 brew "rust"
+# Rust toolchain installer
+brew "rustup"
 # 7-Zip is a file archiver with a high compression ratio
 brew "sevenzip"
+# Static analysis and lint tool, for (ba)sh scripts
+brew "shellcheck"
+# Cross-shell prompt for astronauts
+brew "starship"
 # SMTP command-line test tool
 brew "swaks"
 # Terminal multiplexer
 brew "tmux"
+# Image processing library
+brew "vips"
 # Internet file retriever
 brew "wget"
 # JavaScript package manager
 brew "yarn"
+# Feature-rich command-line audio/video downloader
+brew "yt-dlp"
+# Pluggable terminal workspace, with terminal multiplexer as the base feature
+brew "zellij"
 # Additional completion definitions for zsh
 brew "zsh-completions"
-# Cross-shell prompt
-brew "starship"
 # Password manager that keeps all passwords secure behind one password
 cask "1password"
 # Command-line interface for 1Password
@@ -46,8 +78,6 @@ cask "1password-cli"
 cask "affinity"
 # GPU-accelerated terminal emulator
 cask "alacritty"
-# AI Coding Agent IDE
-cask "antigravity"
 # Tool to flash OS images to SD cards & USB drives
 cask "balenaetcher"
 # Display management tool
@@ -56,10 +86,18 @@ cask "betterdisplay"
 cask "chatgpt"
 # Anthropic's official Claude AI desktop app
 cask "claude"
+# Terminal-based AI coding assistant
+cask "claude-code"
+# Ghostty-based terminal with vertical tabs and notifications for AI coding agents
+cask "cmux"
 # Node-based image, video and audio generator
-cask "comfyui"
+cask "comfy"
+# Brings the power of Copilot coding agent directly to your terminal
+cask "copilot-cli"
 # Voice and text chat software
 cask "discord"
+# App to build and share containerised applications and microservices
+cask "docker-desktop"
 # Security including web and email protection
 cask "eset-cyber-security"
 # Web browser
@@ -81,6 +119,8 @@ cask "google-chrome"
 cask "google-drive"
 # JetBrains tools manager
 cask "jetbrains-toolbox"
+# Discover, download, and run local LLMs
+cask "lm-studio"
 # GameStream client
 cask "moonlight"
 # App to write, plan, collaborate, and get organised
@@ -93,12 +133,11 @@ cask "proton-drive"
 cask "proton-mail"
 # Control your tools with a few keystrokes
 cask "raycast"
-# Music streaming service
-cask "spotify"
+cask "shitsurae"
+# Team communication and collaboration software
+cask "slack"
 # Customise mouse buttons, wheels and cursor speed
 cask "steermouse"
-# Spreadsheet style tag editor for audio files
-cask "tageditor"
 # Mesh VPN based on WireGuard
 cask "tailscale-app"
 # Open-source code editor
@@ -108,20 +147,24 @@ cask "vlc"
 mas "1Password for Safari", id: 1569813296
 mas "BetterSnapTool", id: 417375580
 mas "Display Menu", id: 549083868
+mas "EnterSpace", id: 6746350540
 mas "Ivory", id: 6444602274
-mas "LINE", id: 539883307
+mas "Keynote", id: 409183694
+mas "Music Tag Editor", id: 511170796
 mas "NextDNS", id: 1464122853
 mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "Reeder", id: 6475002485
 mas "RunCat", id: 1429033973
+mas "RunCatNeo", id: 6757801838
 mas "Tag Editor 2", id: 984278082
 mas "The Unarchiver", id: 425424353
-mas "Todoist", id: 585829637
 mas "Yoink", id: 457622435
+vscode "anthropic.claude-code"
+vscode "astro-build.astro-vscode"
 vscode "be5invis.toml"
 vscode "dbaeumer.vscode-eslint"
 vscode "eamodio.gitlens"
-vscode "github.copilot"
-vscode "github.copilot-chat"
 vscode "jetbrains.jetbrains-ai-assistant"
 vscode "ms-azuretools.vscode-containers"
 vscode "ms-azuretools.vscode-docker"
@@ -135,8 +178,18 @@ vscode "ms-python.vscode-python-envs"
 vscode "ms-vscode-remote.remote-containers"
 vscode "nuxtr.nuxtr-vscode"
 vscode "openai.chatgpt"
+vscode "openai.codex-audio"
 vscode "openai.openai-chatgpt-adhoc"
 vscode "ritwickdey.liveserver"
+vscode "rust-lang.rust-analyzer"
 vscode "sumneko.lua"
+vscode "tauri-apps.tauri-vscode"
 vscode "vue.volar"
 vscode "yzane.markdown-pdf"
+cargo "create-tauri-app"
+cargo "tauri-cli"
+npm "@openai/codex"
+npm "@smithery/cli"
+npm "netlify-cli"
+npm "serve"
+npm "vercel"
