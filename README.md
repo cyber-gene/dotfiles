@@ -49,6 +49,9 @@ git pull && chezmoi apply
 `plugins.zsh` → `completion.zsh` → `integrations.zsh` → `aliases.zsh` の順に読み込み、
 その後に `~/.zshrc.local`、最後に Starship を初期化する。
 共通のエイリアスは `aliases.zsh` に追加する。
+`integrations.zsh` は PATH 上の fzf（0.48.0 以上）を検出して、キーバインドと
+曖昧検索による補完を自動で有効にする。Brewfile から fzf をインストールした後、
+新しい Zsh セッションで利用できる。
 
 ### Neovim
 
