@@ -44,6 +44,15 @@ git pull && chezmoi apply
 **マシン固有の設定**（git 管理外）: `~/.zshrc.local` に追記する。
 インストーラーが自動で追加した PATH エントリなどを置く場所として使う。
 
+**Zsh の共通設定**: `dot_zshrc` は読み込み順を管理し、設定本体は
+`dot_config/zsh/`（配置先: `~/.config/zsh/`）に置く。
+`plugins.zsh` → `completion.zsh` → `integrations.zsh` → `aliases.zsh` の順に読み込み、
+その後に `~/.zshrc.local`、最後に Starship を初期化する。
+共通のエイリアスは `aliases.zsh` に追加する。
+`integrations.zsh` は PATH 上の fzf（0.48.0 以上）を検出して、キーバインドと
+曖昧検索による補完を自動で有効にする。Brewfile から fzf をインストールした後、
+新しい Zsh セッションで利用できる。
+
 ### Neovim
 
 Neovim の設定は `dot_config/nvim/` で管理し、chezmoi が `~/.config/nvim/` にコピーする。
