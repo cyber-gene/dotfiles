@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Ubuntu / WSL 向け dotfiles インストールスクリプト
-# Homebrew はスキップし、zsh・vim の動作に必要な最小限のみインストールする
+# Homebrew はスキップし、zsh・Neovim の動作に必要な最小限のみインストールする
 
 set -euo pipefail
 
@@ -18,6 +18,7 @@ sudo apt-get install -y \
   build-essential \
   curl \
   git \
+  neovim \
   tmux \
   unzip \
   vim \

@@ -12,6 +12,7 @@
 
 ### Ubuntu / WSL
 
+Ubuntu 26.04 LTS 以降を使用する（WSL の Ubuntu 環境も同様）。
 Homebrew を使わず、`apt` で最小限の依存パッケージのみをインストールする。
 
 1. 以下のコマンドを実行する:
