@@ -1,5 +1,30 @@
 return {
   {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      { "mason-org/mason.nvim", opts = {} },
+      "mason-org/mason-lspconfig.nvim",
+    },
+    config = function()
+      vim.lsp.config("lua_ls", {
+        settings = {
+          Lua = {
+            runtime = { version = "LuaJIT" },
+            diagnostics = { globals = { "vim" } },
+            workspace = {
+              library = { vim.env.VIMRUNTIME },
+              checkThirdParty = false,
+            },
+          },
+        },
+      })
+      require("mason-lspconfig").setup({
+        ensure_installed = { "lua_ls" },
+        automatic_enable = { "lua_ls" },
+      })
+    end,
+  },
+  {
     "kylechui/nvim-surround",
     version = "^4.0.0",
   },
