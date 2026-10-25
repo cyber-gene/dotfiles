@@ -1,6 +1,10 @@
 return {
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      { "mason-org/mason.nvim", opts = {} },
+      "mason-org/mason-lspconfig.nvim",
+    },
     config = function()
       vim.lsp.config("lua_ls", {
         settings = {
@@ -14,7 +18,10 @@ return {
           },
         },
       })
-      vim.lsp.enable("lua_ls")
+      require("mason-lspconfig").setup({
+        ensure_installed = { "lua_ls" },
+        automatic_enable = { "lua_ls" },
+      })
     end,
   },
   {
