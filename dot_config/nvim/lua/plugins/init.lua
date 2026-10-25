@@ -1,5 +1,23 @@
 return {
   {
+    "neovim/nvim-lspconfig",
+    config = function()
+      vim.lsp.config("lua_ls", {
+        settings = {
+          Lua = {
+            runtime = { version = "LuaJIT" },
+            diagnostics = { globals = { "vim" } },
+            workspace = {
+              library = { vim.env.VIMRUNTIME },
+              checkThirdParty = false,
+            },
+          },
+        },
+      })
+      vim.lsp.enable("lua_ls")
+    end,
+  },
+  {
     "kylechui/nvim-surround",
     version = "^4.0.0",
   },
