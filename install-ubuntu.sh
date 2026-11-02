@@ -17,6 +17,7 @@ sudo apt-get update -q
 sudo apt-get install -y \
   build-essential \
   curl \
+  fzf \
   git \
   neovim \
   tmux \
@@ -93,7 +94,8 @@ fi
 # ─── dotfiles を適用 ──────────────────────────────────────────────────────────
 
 echo ">>> dotfiles を適用..."
-chezmoi apply --source "$CLONE_DIR"
+# 管理対象ファイルのローカル変更も確認なしでリポジトリの内容に上書きする
+chezmoi apply --force --source "$CLONE_DIR"
 
 # ─── gitconfig の Linux 向け調整 ──────────────────────────────────────────────
 # chezmoi apply 後に macOS 固有の op-ssh-sign パスを Linux 版に書き換える

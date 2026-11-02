@@ -116,9 +116,9 @@ else
   fi
 fi
 
-# chezmoi で dotfiles を適用する（link.zsh の代替）
+# 管理対象ファイルのローカル変更も確認なしでリポジトリの内容に上書きする
 echo "Applying dotfiles..."
-if ! chezmoi apply --source "$CLONE_DIR"; then
+if ! chezmoi apply --force --source "$CLONE_DIR"; then
   echo "Failed to apply dotfiles."
   exit 1
 fi
