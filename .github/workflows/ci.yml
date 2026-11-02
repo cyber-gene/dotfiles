@@ -10,21 +10,41 @@ jobs:
   shell:
     name: Shell linting
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       - uses: actions/checkout@v7
 
+      - name: Detect Shell lint changes
+        if: github.event_name == 'pull_request'
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            shell:
+              - '**/*.sh'
+              - '**/*.zsh'
+              - 'dot_zshrc'
+              - '**/.shellcheckrc'
+              - '.github/workflows/ci.yml'
+
       - name: Install zsh and shellcheck
+        if: github.event_name != 'pull_request' || steps.changes.outputs.shell == 'true'
         run: sudo apt-get update -y && sudo apt-get install -y zsh shellcheck
 
       - name: zsh syntax check
+        if: github.event_name != 'pull_request' || steps.changes.outputs.shell == 'true'
         run: |
           find . -name '*.zsh' -not -path './node_modules/*' -print0 | xargs -0 -I{} zsh -n {}
           zsh -n dot_zshrc
 
       - name: bash syntax check
+        if: github.event_name != 'pull_request' || steps.changes.outputs.shell == 'true'
         run: find . -name '*.sh' -not -path './node_modules/*' -print0 | xargs -0 bash -n
 
       - name: ShellCheck
+        if: github.event_name != 'pull_request' || steps.changes.outputs.shell == 'true'
         run: |
           find . \( -name '*.zsh' -o -name '*.sh' \) -not -path './node_modules/*' -print0 | xargs -0 shellcheck --shell=bash
           shellcheck --shell=bash dot_zshrc
@@ -32,22 +52,53 @@ jobs:
   lua:
     name: Lua linting
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       - uses: actions/checkout@v7
 
+      - name: Detect Lua lint changes
+        if: github.event_name == 'pull_request'
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            lua:
+              - '**/*.lua'
+              - 'selene.toml'
+              - 'neovim.yml'
+              - '.github/workflows/ci.yml'
+
       - name: Install Selene
+        if: github.event_name != 'pull_request' || steps.changes.outputs.lua == 'true'
         run: cargo install selene --version 0.31.0 --locked
 
       - name: Lint Neovim configuration
+        if: github.event_name != 'pull_request' || steps.changes.outputs.lua == 'true'
         run: selene dot_config/nvim
 
   toml:
     name: TOML linting
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       - uses: actions/checkout@v7
 
+      - name: Detect TOML lint changes
+        if: github.event_name == 'pull_request'
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            toml:
+              - '**/*.toml'
+              - '.github/workflows/ci.yml'
+
       - name: TOML syntax check
+        if: github.event_name != 'pull_request' || steps.changes.outputs.toml == 'true'
         run: |
           python3 -c "
           import tomllib, sys, pathlib
@@ -69,17 +120,37 @@ jobs:
   markdown:
     name: Markdown linting
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       - uses: actions/checkout@v7
 
+      - name: Detect Markdown lint changes
+        if: github.event_name == 'pull_request'
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            markdown:
+              - '**/*.md'
+              - '**/.markdownlint*'
+              - 'package.json'
+              - 'package-lock.json'
+              - '.npmrc'
+              - '.github/workflows/ci.yml'
+
       - uses: actions/setup-node@v7
+        if: github.event_name != 'pull_request' || steps.changes.outputs.markdown == 'true'
         with:
           node-version: lts/*
           cache: npm
 
       - run: npm ci
+        if: github.event_name != 'pull_request' || steps.changes.outputs.markdown == 'true'
 
       - run: npm run lint:md
+        if: github.event_name != 'pull_request' || steps.changes.outputs.markdown == 'true'
 
 
   chezmoi:
