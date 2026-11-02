@@ -22,7 +22,6 @@ sudo apt-get install -y \
   neovim \
   tmux \
   unzip \
-  vim \
   wget \
   zsh
 
@@ -153,8 +152,8 @@ cat <<'EOF'
        exec zsh
   2. zsh 初回起動時に zplug が未インストールプラグインを
      インストールするか確認を求めます（y で承認）
-  3. vim プラグインをインストールする
-       vim +PlugInstall +qall
+  3. Neovim を起動する（初回起動時にプラグインを自動取得）
+       nvim
   4. 1Password SSH エージェントの設定（コミット署名用）:
      op-ssh-sign は 1Password Desktop (Linux) に同梱されています。
      ・Linux 版 1Password Desktop をインストールする:

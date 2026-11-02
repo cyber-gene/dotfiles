@@ -49,7 +49,7 @@ brew bundle --global                             # Brewfile からパッケー�
 | ソースファイル | 適用先 | 用途 |
 | --- | --- | --- |
 | `dot_zshrc` | `~/.zshrc` | zplug・Starship・fzf を使った Zsh 設定 |
-| `dot_vimrc` | `~/.vimrc` | vim-plug プラグイン付き Vim 設定 |
+| `dot_config/nvim/` | `~/.config/nvim/` | lazy.nvim を使った Neovim 設定 |
 | `dot_tmux.conf` | `~/.tmux.conf` | tmux 設定（プレフィックスは `C-t` に変更） |
 | `dot_gitconfig` | `~/.gitconfig` | Git 設定（1Password SSH エージェント経由でコミット署名） |
 | `dot_Brewfile` | `~/.Brewfile` | Homebrew バンドル |
@@ -72,10 +72,12 @@ brew bundle --global                             # Brewfile からパッケー�
 chezmoi apply   # 追記内容は ~/.zshrc.local に移動済みなので消えても問題ない
 ```
 
-## Vim プラグイン（vim-plug）
+## Neovim プラグイン（lazy.nvim）
 
-プラグインは `dot_vimrc` で宣言し、`~/.vim/plugged/` に保存される（Git 管理外）。
+プラグインは `dot_config/nvim/lua/plugins/init.lua` で宣言し、初回起動時に自動取得する。
 
-- `:PlugInstall` — インストール
-- `:PlugUpdate` — 更新
-- `:PlugClean` — 未使用プラグインの削除
+- `:Lazy` — プラグイン管理画面
+- `:Lazy update` — 更新
+- `:Lazy restore` — `lazy-lock.json` のバージョンを復元
+
+更新後のロックファイルは `chezmoi add ~/.config/nvim/lazy-lock.json` で取り込む。
