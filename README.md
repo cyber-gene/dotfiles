@@ -21,6 +21,10 @@ Homebrew を使わず、`apt` で最小限の依存パッケージのみをイ�
    bash -c "$(curl -fsSL https://raw.githubusercontent.com/cyber-gene/dotfiles/main/install-ubuntu.sh)"
    ```
 
+既存環境の更新にも、各 OS のインストールコマンドを再実行できる。
+既存の `~/dotfiles` を `git pull` で最新化し、chezmoi の管理対象ファイルを
+リポジトリの内容で確認プロンプトなしに上書きする（ローカル変更も上書きされる）。
+
 ## メンテナンス
 
 ### chezmoi
@@ -39,7 +43,7 @@ dotfiles は [chezmoi](https://www.chezmoi.io/) で管理している。ソー�
 **git pull 後の適用:**
 
 ```zsh
-git pull && chezmoi apply
+git pull && chezmoi apply --force
 ```
 
 **マシン固有の設定**（git 管理外）: `~/.zshrc.local` に追記する。
