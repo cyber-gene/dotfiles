@@ -19,7 +19,7 @@ jobs:
       - name: Detect Shell lint changes
         if: github.event_name == 'pull_request'
         id: changes
-        uses: dorny/paths-filter@v3
+        uses: dorny/paths-filter@v4
         with:
           filters: |
             shell:
@@ -61,7 +61,7 @@ jobs:
       - name: Detect Lua lint changes
         if: github.event_name == 'pull_request'
         id: changes
-        uses: dorny/paths-filter@v3
+        uses: dorny/paths-filter@v4
         with:
           filters: |
             lua:
@@ -90,7 +90,7 @@ jobs:
       - name: Detect TOML lint changes
         if: github.event_name == 'pull_request'
         id: changes
-        uses: dorny/paths-filter@v3
+        uses: dorny/paths-filter@v4
         with:
           filters: |
             toml:
@@ -129,7 +129,7 @@ jobs:
       - name: Detect Markdown lint changes
         if: github.event_name == 'pull_request'
         id: changes
-        uses: dorny/paths-filter@v3
+        uses: dorny/paths-filter@v4
         with:
           filters: |
             markdown:
