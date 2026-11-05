@@ -7,3 +7,4 @@ vim.g.maplocalleader = "\\"
 
 -- Commenting uses Neovim's built-in gc/gcc mappings.
 require("config.lazy")
+require("config.documents")
