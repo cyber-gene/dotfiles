@@ -1,5 +1,13 @@
 return {
   {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme("tokyonight-night")
+    end,
+  },
+  {
     "neovim/nvim-lspconfig",
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },
