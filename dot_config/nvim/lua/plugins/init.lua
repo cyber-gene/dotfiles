@@ -27,10 +27,19 @@ return {
         },
       })
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls" },
-        automatic_enable = { "lua_ls" },
+        ensure_installed = { "lua_ls", "jsonls", "yamlls" },
+        automatic_enable = { "lua_ls", "jsonls", "yamlls" },
       })
     end,
+    keys = {
+      {
+        "<leader>cf",
+        function()
+          vim.lsp.buf.format({ async = false, timeout_ms = 5000 })
+        end,
+        desc = "Format buffer",
+      },
+    },
   },
   {
     "kylechui/nvim-surround",

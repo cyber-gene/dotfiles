@@ -72,10 +72,24 @@ Neovim の設定は `dot_config/nvim/` で管理し、chezmoi が `~/.config/nvi
 Neovim 0.11.3 以上と Git をインストールして `chezmoi apply` を実行し、`nvim` を起動する。
 初回起動では lazy.nvim とプラグインを自動で取得するため、ネットワーク接続が必要。
 保存済みのプラグインバージョンを復元するには `:Lazy restore` を実行する。
-Lua 言語サーバーは macOS / Linux 共通で Mason が自動インストールし、有効化する。
+Lua・JSON（JSONC を含む）・YAML 言語サーバーは macOS / Linux 共通で Mason が自動インストールし、有効化する。
+JSON・YAML 言語サーバーには Node.js と npm が必要（macOS は Brewfile に含む）。
 初回インストールの状況は `:Mason` で確認できる。
 全文検索の `Space fg` には ripgrep (`rg`) が必要。
 アイコン表示には Nerd Font 3.3 以上をインストールし、端末で使用するフォントとして選択する。
+
+JSON・JSONC・YAML はスペース2個のインデントを使用する。
+言語サーバーの起動後、ノーマルモードの `Space cf` でファイル全体を整形できる。
+保存時の自動整形は行わない。
+JSON・JSONC は構文、YAML はインデントに基づいて折りたたみ、最初はすべて展開して表示する。
+1行の JSON は整形して複数行にしてから折りたたむ。
+
+| キー | 操作 |
+| --- | --- |
+| `Space cf` | LSP でファイル全体を整形 |
+| `za` | カーソル位置の折りたたみを開閉 |
+| `zc` / `zo` | カーソル位置を閉じる / 開く |
+| `zM` / `zR` | すべて閉じる / 開く |
 
 設定を編集して適用する:
 
