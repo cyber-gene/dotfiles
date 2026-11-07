@@ -43,9 +43,9 @@ fi
 (
   set +u
   # shellcheck source=/dev/null
-  source "$NVM_DIR/nvm.sh"
+  source "$NVM_DIR/nvm.sh" --no-use
   nvm install --lts
-  nvm alias default 'lts/*'
+  nvm alias default "$(nvm current)"
   echo ">>> Node.js $(node --version) / npm $(npm --version)"
 )
 
