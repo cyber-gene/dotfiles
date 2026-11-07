@@ -25,7 +25,8 @@ jobs:
             shell:
               - '**/*.sh'
               - '**/*.zsh'
-              - 'dot_zshrc'
+              - '.chezmoiscripts/**'
+              - 'tests/**'
               - '**/.shellcheckrc'
               - '.github/workflows/ci.yml'
 
@@ -37,7 +38,6 @@ jobs:
         if: github.event_name != 'pull_request' || steps.changes.outputs.shell == 'true'
         run: |
           find . -name '*.zsh' -not -path './node_modules/*' -print0 | xargs -0 -I{} zsh -n {}
-          zsh -n dot_zshrc
 
       - name: bash syntax check
         if: github.event_name != 'pull_request' || steps.changes.outputs.shell == 'true'
@@ -47,7 +47,6 @@ jobs:
         if: github.event_name != 'pull_request' || steps.changes.outputs.shell == 'true'
         run: |
           find . \( -name '*.zsh' -o -name '*.sh' \) -not -path './node_modules/*' -print0 | xargs -0 shellcheck --shell=bash
-          shellcheck --shell=bash dot_zshrc
 
   lua:
     name: Lua linting
@@ -163,6 +162,9 @@ jobs:
 
       - name: Install chezmoi
         run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
+
+      - name: Test Zsh migration
+        run: python3 -m unittest discover -s tests -v
 
       - name: chezmoi apply --dry-run
         run: |
