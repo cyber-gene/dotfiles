@@ -25,6 +25,29 @@ sudo apt-get install -y \
   wget \
   zsh
 
+# ─── Node.js / npm（Mason の言語サーバー用） ───────────────────────────────────
+
+# PROFILE=/dev/null で .zshrc 等への自動追記を防ぐ。
+# 起動時の読み込みは dot_config/zsh/init.zsh で行う。
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+if [[ ! -s "$NVM_DIR/nvm.sh" ]]; then
+  echo ">>> nvm をインストール..."
+  curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.41.0/install.sh \
+    | PROFILE=/dev/null bash
+else
+  echo ">>> nvm はインストール済み: $NVM_DIR"
+fi
+
+# nvm は nounset を前提としないため、サブシェル内だけ解除する。
+(
+  set +u
+  # shellcheck source=/dev/null
+  source "$NVM_DIR/nvm.sh"
+  nvm install --lts
+  nvm alias default 'lts/*'
+  echo ">>> Node.js $(node --version) / npm $(npm --version)"
+)
+
 # ─── chezmoi ─────────────────────────────────────────────────────────────────
 
 if ! command_exists chezmoi; then
