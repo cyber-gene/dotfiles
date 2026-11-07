@@ -124,22 +124,6 @@ if [[ "$SHELL" != "$ZSH_PATH" ]]; then
   chsh -s "$ZSH_PATH"
 fi
 
-# ─── ~/.zshrc.local のひな型を作成（未存在時のみ） ───────────────────────────
-
-ZSHRC_LOCAL="$HOME/.zshrc.local"
-if [[ ! -f "$ZSHRC_LOCAL" ]]; then
-  cat > "$ZSHRC_LOCAL" <<'LOCALEOF'
-# ~/.zshrc.local — このマシン固有の設定（Git 管理外）
-
-# chezmoi / starship（~/.local/bin）
-export PATH="$HOME/.local/bin:$PATH"
-
-# WSL: Windows 側の 1Password SSH エージェントを使う場合はコメントを外す
-# export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
-LOCALEOF
-  echo ">>> ~/.zshrc.local のひな型を作成しました。"
-fi
-
 # ─── 完了 ─────────────────────────────────────────────────────────────────────
 
 cat <<'EOF'
@@ -163,7 +147,9 @@ cat <<'EOF'
          自動設定されていない場合は手動で op-ssh-sign のパスを記入する
      ・WSL から Windows 版 1Password を使う場合:
          - 1Password の設定 → 開発者 → SSH Agent を有効化
-         - ~/.zshrc.local の SSH_AUTH_SOCK 行のコメントを外す
-  5. マシン固有の設定は ~/.zshrc.local に追記してください
+         - ~/.zshrc に export SSH_AUTH_SOCK="$HOME/.1password/agent.sock" を追記する
+  5. マシン固有の設定は ~/.zshrc に追記してください
+     chezmoi / starship のパスが未設定の場合は、共通設定の読み込み行より前に追加する:
+       export PATH="$HOME/.local/bin:$PATH"
 
 EOF
