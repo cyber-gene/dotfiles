@@ -8,11 +8,32 @@ return {
     end,
   },
   {
+    "saghen/blink.cmp",
+    version = "1.*",
+    opts = {
+      keymap = { preset = "default" },
+      completion = { documentation = { auto_show = true } },
+      sources = { default = { "lsp", "path", "snippets", "buffer" } },
+      fuzzy = { implementation = "lua" },
+      cmdline = {
+        keymap = { preset = "inherit" },
+        completion = {
+          menu = {
+            auto_show = function()
+              return vim.fn.getcmdtype() == ":"
+            end,
+          },
+        },
+      },
+    },
+  },
+  {
     "neovim/nvim-lspconfig",
     lazy = false,
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },
       "mason-org/mason-lspconfig.nvim",
+      "saghen/blink.cmp",
     },
     config = function()
       vim.lsp.config("lua_ls", {

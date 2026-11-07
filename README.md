@@ -72,9 +72,13 @@ Neovim の設定は `dot_config/nvim/` で管理し、chezmoi が `~/.config/nvi
 Neovim 0.11.3 以上と Git をインストールして `chezmoi apply` を実行し、`nvim` を起動する。
 初回起動では lazy.nvim とプラグインを自動で取得するため、ネットワーク接続が必要。
 保存済みのプラグインバージョンを復元するには `:Lazy restore` を実行する。
-Lua・JSON（JSONC を含む）・YAML 言語サーバーは macOS / Linux 共通で Mason が自動インストールし、有効化する。
+Lua・JSON（JSONC を含む）・YAML言語サーバーは macOS / Linux 共通で Mason が自動インストールし、有効化する。
 JSON・YAML 言語サーバーには Node.js と npm が必要（macOS は Brewfile に含む）。
 初回インストールの状況は `:Mason` で確認できる。
+入力中は blink.cmp が LSP・ファイルパス・スニペット・バッファ内の単語の補完候補を表示する。
+候補のドキュメントも自動表示する。
+コマンド名や引数の補完候補を自動表示し、`Ctrl-n` / `Ctrl-p` で選択、`Ctrl-y` で確定する。
+確定後、`Enter` でコマンドを実行する。
 全文検索の `Space fg` には ripgrep (`rg`) が必要。
 アイコン表示には Nerd Font 3.3 以上をインストールし、端末で使用するフォントとして選択する。
 
@@ -87,6 +91,10 @@ JSON・JSONC は構文、YAML はインデントに基づいて折りたたみ�
 | キー | 操作 |
 | --- | --- |
 | `Space cf` | LSP でファイル全体を整形 |
+| `Ctrl-n` / `Ctrl-p` | 挿入モードで次 / 前の補完候補を選択 |
+| `Ctrl-y` | 補完候補を確定 |
+| `Ctrl-Space` | 補完候補を表示 / ドキュメントを表示 |
+| `Ctrl-e` | 補完候補を閉じる |
 | `za` | カーソル位置の折りたたみを開閉 |
 | `zc` / `zo` | カーソル位置を閉じる / 開く |
 | `zM` / `zR` | すべて閉じる / 開く |
