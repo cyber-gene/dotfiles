@@ -18,3 +18,10 @@ node_modules
 # vim-plug が管理するプラグインディレクトリ（実行時に :PlugInstall で生成）
 .vim/plugged/
 .vim/.netrwhist
+
+# Migration helpers and tests (invoked by the before script)
+scripts
+tests
+
+# Machine-owned shell entry point; never overwrite installer additions
+.zshrc

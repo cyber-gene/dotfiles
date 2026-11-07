@@ -116,7 +116,8 @@ else
   fi
 fi
 
-# 管理対象ファイルのローカル変更も確認なしでリポジトリの内容に上書きする
+# .zshrc は run_before で保護・移行する。未知の構成なら apply 自体が停止する。
+# その他の管理対象ファイルはローカル変更も確認なしで上書きする。
 echo "Applying dotfiles..."
 if ! chezmoi apply --force --source "$CLONE_DIR"; then
   echo "Failed to apply dotfiles."
