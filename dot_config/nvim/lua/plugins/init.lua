@@ -67,8 +67,8 @@ return {
         },
       })
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "jsonls", "yamlls" },
-        automatic_enable = { "lua_ls", "jsonls", "yamlls" },
+        ensure_installed = { "lua_ls", "jsonls", "yamlls", "pyright" },
+        automatic_enable = { "lua_ls", "jsonls", "yamlls", "pyright" },
       })
     end,
     keys = {

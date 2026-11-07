@@ -72,8 +72,8 @@ Neovim の設定は `dot_config/nvim/` で管理し、chezmoi が `~/.config/nvi
 Neovim 0.11.3 以上と Git をインストールして `chezmoi apply` を実行し、`nvim` を起動する。
 初回起動では lazy.nvim とプラグインを自動で取得するため、ネットワーク接続が必要。
 保存済みのプラグインバージョンを復元するには `:Lazy restore` を実行する。
-Lua・JSON（JSONC を含む）・YAML言語サーバーは macOS / Linux 共通で Mason が自動インストールし、有効化する。
-JSON・YAML 言語サーバーには Node.js と npm が必要（macOS は Brewfile に含む）。
+Lua・JSON（JSONC を含む）・YAML・Python（Pyright）言語サーバーは macOS / Linux 共通で Mason が自動インストールし、有効化する。
+JSON・YAML・Python 言語サーバーには Node.js と npm が必要（macOS は Brewfile に含む）。
 初回インストールの状況は `:Mason` で確認できる。
 入力中は blink.cmp が LSP・ファイルパス・スニペット・バッファ内の単語の補完候補を表示する。
 候補のドキュメントも自動表示する。
