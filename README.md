@@ -13,7 +13,7 @@
 ### Ubuntu / WSL
 
 Ubuntu 26.04 LTS 以降を使用する（WSL の Ubuntu 環境も同様）。
-Homebrew を使わず、`apt` で最小限の依存パッケージのみをインストールする。
+Homebrew を使わず、`apt` で基本パッケージ、nvm で Node.js / npm をインストールする。
 
 1. 以下のコマンドを実行する:
 
@@ -104,6 +104,13 @@ Neovim 0.11.3 以上と Git をインストールして `chezmoi apply` を実�
 保存済みのプラグインバージョンを復元するには `:Lazy restore` を実行する。
 Lua・JSON（JSONC を含む）・YAML・Python（Pyright）言語サーバーは macOS / Linux 共通で Mason が自動インストールし、有効化する。
 JSON・YAML・Python 言語サーバーには Node.js と npm が必要（macOS は Brewfile に含む）。
+Ubuntu / WSL は `install-ubuntu.sh` が nvm と最新 LTS の Node.js（npm 同梱）を
+インストールし、nvm のデフォルトに設定する。再実行時も最新 LTS に更新する。
+nvm は `${NVM_DIR:-$HOME/.nvm}` に配置し、
+インストーラーによる `.zshrc` 等への追記は無効にする。
+Linux では共通の `~/.config/zsh/init.zsh` が nvm を読み込むため、
+シェルを再起動すると Neovim からも Node.js / npm を利用できる。
+バージョンの追加・切り替えには `nvm install` / `nvm use` を使う。
 初回インストールの状況は `:Mason` で確認できる。
 入力中は blink.cmp が LSP・ファイルパス・スニペット・バッファ内の単語の補完候補を表示する。
 候補のドキュメントも自動表示する。
