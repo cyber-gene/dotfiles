@@ -32,6 +32,7 @@ sudo apt-get install -y \
 export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
 if [[ ! -s "$NVM_DIR/nvm.sh" ]]; then
   echo ">>> nvm をインストール..."
+  mkdir -p "$NVM_DIR"
   curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.41.0/install.sh \
     | PROFILE=/dev/null bash
 else
