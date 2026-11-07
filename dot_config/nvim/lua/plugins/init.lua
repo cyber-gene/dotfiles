@@ -22,7 +22,7 @@ return {
         signature = { enabled = false },
         message = { enabled = false },
       },
-      presets = { bottom_search = true },
+      presets = { bottom_search = true, command_palette = true },
     },
   },
   {
