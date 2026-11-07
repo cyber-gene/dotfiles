@@ -8,11 +8,50 @@ return {
     end,
   },
   {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    opts = {
+      cmdline = { enabled = true, view = "cmdline_popup" },
+      popupmenu = { enabled = false },
+      messages = { enabled = false },
+      notify = { enabled = false },
+      lsp = {
+        progress = { enabled = false },
+        hover = { enabled = false },
+        signature = { enabled = false },
+        message = { enabled = false },
+      },
+      presets = { bottom_search = true, command_palette = true },
+    },
+  },
+  {
+    "saghen/blink.cmp",
+    version = "1.*",
+    opts = {
+      keymap = { preset = "default" },
+      completion = { documentation = { auto_show = true } },
+      sources = { default = { "lsp", "path", "snippets", "buffer" } },
+      fuzzy = { implementation = "lua" },
+      cmdline = {
+        keymap = { preset = "inherit" },
+        completion = {
+          menu = {
+            auto_show = function()
+              return vim.fn.getcmdtype() == ":"
+            end,
+          },
+        },
+      },
+    },
+  },
+  {
     "neovim/nvim-lspconfig",
     lazy = false,
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },
       "mason-org/mason-lspconfig.nvim",
+      "saghen/blink.cmp",
     },
     config = function()
       vim.lsp.config("lua_ls", {
@@ -28,8 +67,8 @@ return {
         },
       })
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "jsonls", "yamlls" },
-        automatic_enable = { "lua_ls", "jsonls", "yamlls" },
+        ensure_installed = { "lua_ls", "jsonls", "yamlls", "pyright" },
+        automatic_enable = { "lua_ls", "jsonls", "yamlls", "pyright" },
       })
     end,
     keys = {
