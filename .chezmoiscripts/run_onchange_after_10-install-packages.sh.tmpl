@@ -1,0 +1,22 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+set -euo pipefail
+
+# Brewfile hash: {{ include "dot_Brewfile" | sha256sum }}
+# Homebrew may not be on PATH in a non-interactive shell.
+if ! command -v brew >/dev/null 2>&1; then
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  else
+    echo "Homebrew is required. Run install.zsh first." >&2
+    exit 1
+  fi
+fi
+
+BREWFILE="${CHEZMOI_SOURCE_DIR:?chezmoi source directory is required}/dot_Brewfile"
+if ! brew bundle check --file="$BREWFILE" --no-upgrade; then
+  brew bundle install --file="$BREWFILE" --no-upgrade
+fi
+{{ end -}}

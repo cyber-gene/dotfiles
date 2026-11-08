@@ -10,20 +10,14 @@ CHEZMOI_CONFIG="$HOME/.config/chezmoi/chezmoi.toml"
 
 command_exists() { command -v "$1" &>/dev/null; }
 
-# ─── apt パッケージ（最小限） ────────────────────────────────────────────────
+# ─── 初期セットアップ用パッケージ ────────────────────────────────────────────
+# 残りの必須パッケージは chezmoi apply が scripts/ubuntu-packages.txt から導入する。
 
 echo ">>> apt パッケージをインストール..."
 sudo apt-get update -q
 sudo apt-get install -y \
-  build-essential \
   curl \
-  eza \
-  fzf \
   git \
-  neovim \
-  tmux \
-  unzip \
-  wget \
   zsh
 
 # ─── Node.js / npm（Mason の言語サーバー用） ───────────────────────────────────
