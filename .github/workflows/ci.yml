@@ -163,7 +163,7 @@ jobs:
       - name: Install chezmoi
         run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
 
-      - name: Test Zsh migration
+      - name: Test chezmoi scripts
         run: python3 -m unittest discover -s tests -v
 
       - name: chezmoi apply --dry-run

@@ -128,6 +128,3 @@ fi
 echo "Verifying installations..."
 command_exists brew && echo "Homebrew installation verified."
 command_exists chezmoi && echo "chezmoi installation verified."
-
-# Homebrew パッケージを一括インストールする
-brew bundle --global

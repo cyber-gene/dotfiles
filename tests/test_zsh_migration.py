@@ -19,8 +19,11 @@ class MigrationTest(unittest.TestCase):
         self.home.mkdir()
         self.source = base / 'source'
         self.source.mkdir()
-        for name in ('.chezmoiscripts', 'scripts', 'dot_config/zsh'):
+        for name in ('scripts', 'dot_config/zsh'):
             shutil.copytree(ROOT / name, self.source / name)
+        (self.source / '.chezmoiscripts').mkdir()
+        shutil.copyfile(ROOT / '.chezmoiscripts/run_before_00-migrate-zshrc.sh',
+                        self.source / '.chezmoiscripts/run_before_00-migrate-zshrc.sh')
         shutil.copyfile(ROOT / '.chezmoiignore', self.source / '.chezmoiignore')
         self.command = ['chezmoi', '--config', str(base / 'config.toml'),
                         '--source', str(self.source), '--destination', str(self.home),

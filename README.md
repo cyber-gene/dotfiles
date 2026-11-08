@@ -168,6 +168,12 @@ selene dot_config/nvim
 
 ### Brewfile の更新
 
+macOS では `dot_Brewfile` にパッケージを追加して `chezmoi apply` を実行すると、
+不足分が自動でインストールされる。インストールスクリプトの再実行は不要。
+初回と Brewfile の内容が変わった時だけチェックし、インストール済みの
+パッケージに対する一括更新・削除は行わない（追加パッケージの依存関係で更新される場合はある）。
+失敗した場合は、次の `chezmoi apply` で再試行する。
+
 1. 以下のコマンドを実行する:
 
    ```zsh
@@ -175,3 +181,13 @@ selene dot_config/nvim
    ```
 
    VS Code 拡張を Homebrew で管理している場合は `--no-vscode` を外す。
+
+### Ubuntu / WSL の apt パッケージの更新
+
+Ubuntu（WSL の Ubuntu を含む）では `scripts/ubuntu-packages.txt` に
+パッケージ名を1行ずつ追加し、`chezmoi apply` を実行する。
+初回と一覧・インストール処理の変更時だけ確認し、不足分がある場合に限り
+`apt-get update` とインストールを行う（通常ユーザーでは sudo を使用する）。
+既存パッケージの一括更新・削除は行わず、失敗した場合は次回の apply で再試行する。
+初期インストーラーも、この一覧の適用を chezmoi に任せる。
+Node.js / nvm・starship・zplug の導入は引き続き初期インストーラーが行う。

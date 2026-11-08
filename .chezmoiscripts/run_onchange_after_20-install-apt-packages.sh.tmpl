@@ -1,0 +1,10 @@
+{{ if eq .chezmoi.os "linux" -}}
+{{ if eq .chezmoi.osRelease.id "ubuntu" -}}
+#!/bin/bash
+set -euo pipefail
+
+# Package list hash: {{ include "scripts/ubuntu-packages.txt" | sha256sum }}
+# Installer hash: {{ include "scripts/install-apt-packages.sh" | sha256sum }}
+exec bash "${CHEZMOI_SOURCE_DIR:?chezmoi source directory is required}/scripts/install-apt-packages.sh"
+{{ end -}}
+{{ end -}}

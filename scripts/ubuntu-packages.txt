@@ -1,0 +1,10 @@
+build-essential
+curl
+eza
+fzf
+git
+neovim
+tmux
+unzip
+wget
+zsh
