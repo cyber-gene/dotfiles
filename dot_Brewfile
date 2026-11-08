@@ -10,6 +10,10 @@ brew "chezmoi"
 brew "cmake"
 # Pack, ship and run any application as a lightweight container
 brew "docker"
+# Cryptography and SSL/TLS Toolkit
+brew "openssl@4"
+# Modern, maintained replacement for ls
+brew "eza"
 # Play, record, convert, and stream select audio and video codecs
 brew "ffmpeg"
 # Free lossless audio codec
@@ -26,6 +30,8 @@ brew "gnupg"
 brew "imagemagick"
 # Update of iperf: measures TCP, UDP, and SCTP bandwidth
 brew "iperf3"
+# Language Server for the Lua language
+brew "lua-language-server"
 # Mac App Store command-line interface
 brew "mas"
 # Ambitious Vim-fork focused on extensibility and agility
@@ -147,7 +153,7 @@ cask "vlc"
 mas "1Password for Safari", id: 1569813296
 mas "BetterSnapTool", id: 417375580
 mas "Display Menu", id: 549083868
-mas "EnterSpace", id: 6746350540
+mas "Enter Space", id: 6746350540
 mas "Ivory", id: 6444602274
 mas "Keynote", id: 409183694
 mas "Music Tag Editor", id: 511170796
