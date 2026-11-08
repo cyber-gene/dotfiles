@@ -9,9 +9,10 @@ while IFS= read -r package || [[ -n "$package" ]]; do
     echo "Invalid apt package name: $package" >&2
     exit 1
   fi
-  if [[ "$(dpkg-query -W -f='${Status}' "$package" 2>/dev/null || true)" != "install ok installed" ]]; then
-    missing+=("$package")
-  fi
+  case "$(dpkg-query -W -f='${Status}' "$package" 2>/dev/null || true)" in
+    "install ok installed"|"hold ok installed") ;;
+    *) missing+=("$package") ;;
+  esac
 done < "$SCRIPT_DIR/ubuntu-packages.txt"
 
 if (( ${#missing[@]} == 0 )); then
