@@ -8,6 +8,7 @@ link.zsh
 install.zsh
 install-ubuntu.sh
 README.md
+docs
 CLAUDE.md
 package.json
 package-lock.json
