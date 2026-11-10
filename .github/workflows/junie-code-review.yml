@@ -20,6 +20,7 @@ jobs:
       - uses: JetBrains/junie-github-action@v1
         with:
           junie_api_key: ${{ secrets.JUNIE_API_KEY }}
+          allow_approve: false
           # Update the same comment on subsequent Junie runs instead of adding new comments
           use_single_comment: true
           # Alternatively, write your custom review instructions in the prompt field
