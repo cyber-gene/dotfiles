@@ -17,7 +17,7 @@ jobs:
         with:
           fetch-depth: 1
 
-      - uses: JetBrains/junie-github-action@v1
+      - uses: JetBrains/junie-github-action@7e0a3d3059e38bcd2ae3d2d366726df45663d5ae
         with:
           junie_api_key: ${{ secrets.JUNIE_API_KEY }}
           allow_approve: false
