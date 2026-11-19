@@ -17,7 +17,7 @@ jobs:
         with:
           fetch-depth: 1
 
-      - uses: JetBrains/junie-github-action@7e0a3d3059e38bcd2ae3d2d366726df45663d5ae
+      - uses: JetBrains/junie-github-action@1059393cad108df68635b0c7a689fa86ecd53d82
         with:
           junie_api_key: ${{ secrets.JUNIE_API_KEY }}
           # Update the same comment on subsequent Junie runs instead of adding new comments
